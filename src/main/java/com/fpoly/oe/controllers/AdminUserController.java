@@ -1,0 +1,104 @@
+package com.fpoly.oe.controllers;
+
+import java.io.IOException;
+import java.util.List;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import com.fpoly.oe.dao.UserDAO;
+import com.fpoly.oe.entities.User;
+
+@WebServlet({"/admin/user", "/admin/user/create", "/admin/user/update", "/admin/user/delete", "/admin/user/edit", "/admin/user/lock", "/admin/user/unlock"})
+public class AdminUserController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        UserDAO dao = new UserDAO();
+        User formUser = new User();
+        
+        String activeTab = "userList"; 
+        
+        if (uri.contains("/edit")) {
+            String id = req.getParameter("id");
+            if (id != null) {
+                formUser = dao.findById(id);
+                activeTab = "userEdition";
+            }
+        }
+        
+        List<User> users = dao.findAll();
+        
+        req.setAttribute("formUser", formUser);
+        req.setAttribute("users", users);
+        req.setAttribute("activeTab", activeTab);
+        
+        req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        UserDAO dao = new UserDAO();
+        
+        try {
+            User user = new User();
+            user.setId(req.getParameter("id"));
+            user.setPassword(req.getParameter("password"));
+            user.setFullname(req.getParameter("fullname"));
+            user.setEmail(req.getParameter("email"));
+            // Lấy role từ radio button (nếu có)
+            String roleStr = req.getParameter("role");
+            user.setAdmin("true".equals(roleStr));
+            
+            if (uri.contains("/create")) {
+                dao.create(user);
+                req.setAttribute("message", "Thêm người dùng thành công!");
+            } else if (uri.contains("/update")) {
+                dao.update(user);
+                req.setAttribute("message", "Cập nhật người dùng thành công!");
+            } else if (uri.contains("/delete")) {
+                // Không cho phép tự xóa chính mình nếu đang login
+                User sessionUser = (User) req.getSession().getAttribute("user");
+                if (sessionUser != null && sessionUser.getId().equals(user.getId())) {
+                    req.setAttribute("error", "Không thể tự xóa tài khoản của chính mình!");
+                } else {
+                    dao.delete(user.getId());
+                    req.setAttribute("message", "Xóa người dùng thành công!");
+                    user = new User(); // Xóa xong thì form trống
+                }
+            } else if (uri.contains("/lock") || uri.contains("/unlock")) {
+                User targetUser = dao.findById(user.getId());
+                if (targetUser != null) {
+                    User sessionUser = (User) req.getSession().getAttribute("user");
+                    if (sessionUser != null && sessionUser.getId().equals(targetUser.getId())) {
+                        req.setAttribute("error", "Không thể tự khóa tài khoản của chính mình!");
+                    } else {
+                        targetUser.setActive(uri.contains("/unlock"));
+                        dao.update(targetUser);
+                        req.setAttribute("message", uri.contains("/unlock") ? "Đã mở khóa tài khoản!" : "Đã khóa tài khoản!");
+                    }
+                    user = new User(); // Xóa form
+                    req.setAttribute("activeTab", "userList"); // Trở lại tab list
+                }
+            }
+            
+            req.setAttribute("formUser", user);
+            req.setAttribute("activeTab", "userEdition");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("error", "Lỗi thao tác dữ liệu: " + e.getMessage());
+            req.setAttribute("activeTab", "userEdition");
+        }
+        
+        List<User> users = dao.findAll();
+        req.setAttribute("users", users);
+        req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
+    }
+}
