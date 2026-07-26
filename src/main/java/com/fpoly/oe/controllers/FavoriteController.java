@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.controllers;
+package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,4 +35,3 @@ public class FavoriteController extends HttpServlet {
         req.getRequestDispatcher("/views/user/favorites.jsp").forward(req, resp);
     }
 }
-

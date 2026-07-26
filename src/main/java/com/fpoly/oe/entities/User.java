@@ -26,7 +26,7 @@ public class User {
 	@Column(name = "Admin")
 	private boolean admin = false;
 	@Column(name = "Active")
-	private boolean active = true;
+	private Boolean active = true;
 
     // Getters and Setters
     public String getId() { return id; }
@@ -44,6 +44,6 @@ public class User {
     public boolean isAdmin() { return admin; }
     public void setAdmin(boolean admin) { this.admin = admin; }
     
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
