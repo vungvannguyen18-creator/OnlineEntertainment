@@ -57,13 +57,13 @@
           <a class="nav-link dropdown-toggle custom-link" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
             TÀI KHOẢN
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-end">
             <!-- JSTL Kiểm tra Session (Biến user) -->
             <c:choose>
               <c:when test="${not empty sessionScope.user}">
                   <!-- Nếu ĐÃ đăng nhập -->
                   <li>
-                      <span class="dropdown-item fw-bold text-success" style="cursor: default;">
+                      <span class="dropdown-item fw-bold text-success text-wrap" style="cursor: default; width: 250px;">
                           Xin chào, ${sessionScope.user.fullname != null ? sessionScope.user.fullname : (sessionScope.user.admin ? 'Quản trị viên' : 'Bạn')}
                       </span>
                   </li>
@@ -80,7 +80,6 @@
               <c:otherwise>
                   <!-- Nếu CHƯA đăng nhập -->
                   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
-                  <li><a class="dropdown-item" href="${pageContext.request.contextPath}/forgot-password">Quên mật khẩu</a></li>
                   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
               </c:otherwise>
             </c:choose>

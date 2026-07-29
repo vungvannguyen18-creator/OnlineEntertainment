@@ -30,13 +30,15 @@ public class ChannelFilter implements Filter {
         
         // Filter kiểm tra vai trò và user id có hợp lệ không? (Nếu không quay về login)
         if (user == null || user.getId() == null) {
+            session.setAttribute("securityUri", req.getRequestURI());
             req.setAttribute("error", "Vui lòng đăng nhập để thực hiện chức năng này!");
             req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);
             return;
         }
         
         // Kiểm tra xem user có phải admin hoặc đã được duyệt channel chưa
-        if (!user.isAdmin()) {
+        // Ngoại trừ URL /channel/request vì đây là URL dùng để xin cấp quyền
+        if (!user.isAdmin() && !req.getRequestURI().contains("/channel/request")) {
             com.fpoly.oe.dao.ChannelRequestDAO channelDAO = new com.fpoly.oe.dao.ChannelRequestDAO();
             com.fpoly.oe.entities.ChannelRequest channelReq = channelDAO.findByUserId(user.getId());
             

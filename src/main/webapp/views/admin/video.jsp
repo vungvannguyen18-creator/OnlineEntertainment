@@ -140,13 +140,12 @@
               </table>
           </div>
           <div class="card-footer bg-light d-flex justify-content-between align-items-center border-warning">
-              <span class="fw-bold">${videos.size()} video</span>
+              <span class="fw-bold">Đang hiển thị ${videos.size()} video (Trang ${currentPage + 1}/${totalPages})</span>
               <div class="btn-group">
-                  <!-- Tạm thời dùng nút giả lập phân trang vì đề bài yêu cầu giao diện có sẵn -->
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">|&lt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&lt;&lt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&gt;&gt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&gt;|</button>
+                  <a href="${pageContext.request.contextPath}/admin/video?page=0" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">|&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/video?page=${currentPage - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">&lt;&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/video?page=${currentPage + 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;&gt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/video?page=${totalPages - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;|</a>
               </div>
           </div>
       </div>

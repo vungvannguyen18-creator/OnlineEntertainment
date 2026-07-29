@@ -24,6 +24,8 @@ public class ShareController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         if (session.getAttribute("user") == null) {
+            String uri = req.getRequestURI() + (req.getQueryString() != null ? "?" + req.getQueryString() : "");
+            session.setAttribute("securityUri", uri);
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
@@ -52,6 +54,8 @@ public class ShareController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         if (user == null) {
+            String uri = req.getRequestURI();
+            session.setAttribute("securityUri", uri);
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }

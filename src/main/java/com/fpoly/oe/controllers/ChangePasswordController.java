@@ -42,6 +42,8 @@ public class ChangePasswordController extends HttpServlet {
         
         if (!currentUser.getPassword().equals(oldPassword)) {
             req.setAttribute("error", "Mật khẩu hiện tại không đúng!");
+        } else if (newPassword == null || newPassword.length() < 6) {
+            req.setAttribute("error", "Mật khẩu mới phải có ít nhất 6 ký tự!");
         } else if (!newPassword.equals(confirmPassword)) {
             req.setAttribute("error", "Mật khẩu xác nhận không khớp!");
         } else {

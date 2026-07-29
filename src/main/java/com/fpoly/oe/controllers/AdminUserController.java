@@ -72,16 +72,25 @@ public class AdminUserController extends HttpServlet {
                     req.setAttribute("message", "Xóa người dùng thành công!");
                     user = new User(); // Xóa xong thì form trống
                 }
-            } else if (uri.contains("/lock") || uri.contains("/unlock")) {
+            } else if (uri.endsWith("/lock") || uri.endsWith("/unlock")) {
                 User targetUser = dao.findById(user.getId());
                 if (targetUser != null) {
                     User sessionUser = (User) req.getSession().getAttribute("user");
-                    if (sessionUser != null && sessionUser.getId().equals(targetUser.getId())) {
+                    boolean isSelf = (sessionUser != null && sessionUser.getId().equals(targetUser.getId()));
+                    boolean isLockAction = uri.endsWith("/lock");
+                    
+                    if (isSelf && isLockAction) {
                         req.setAttribute("error", "Không thể tự khóa tài khoản của chính mình!");
                     } else {
-                        targetUser.setActive(uri.contains("/unlock"));
+                        targetUser.setActive(!isLockAction);
                         dao.update(targetUser);
-                        req.setAttribute("message", uri.contains("/unlock") ? "Đã mở khóa tài khoản!" : "Đã khóa tài khoản!");
+                        
+                        if (isSelf) {
+                            sessionUser.setActive(targetUser.getActive());
+                            req.getSession().setAttribute("user", sessionUser);
+                        }
+                        
+                        req.setAttribute("message", !isLockAction ? "Đã mở khóa tài khoản!" : "Đã khóa tài khoản!");
                     }
                     user = new User(); // Xóa form
                     req.setAttribute("activeTab", "userList"); // Trở lại tab list
@@ -93,7 +102,15 @@ public class AdminUserController extends HttpServlet {
             
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("error", "Lỗi thao tác dữ liệu: " + e.getMessage());
+            String errorMsg = "Lỗi thao tác dữ liệu!";
+            if (uri.contains("/delete")) {
+                errorMsg = "Không thể xóa người dùng này vì họ đang có dữ liệu liên quan (Video, Lượt thích, Chia sẻ...). Vui lòng Khóa tài khoản thay vì Xóa!";
+            } else if (uri.contains("/create")) {
+                errorMsg = "Không thể thêm mới! Mã người dùng hoặc Email này có thể đã tồn tại.";
+            } else if (uri.contains("/update")) {
+                errorMsg = "Không thể cập nhật! Email này có thể đã được người khác sử dụng.";
+            }
+            req.setAttribute("error", errorMsg);
             req.setAttribute("activeTab", "userEdition");
         }
         

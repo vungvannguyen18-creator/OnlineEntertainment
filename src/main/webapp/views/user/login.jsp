@@ -9,6 +9,9 @@
         <c:if test="${not empty error}">
             <div class="alert alert-danger fw-bold">${error}</div>
         </c:if>
+        <c:if test="${not empty message}">
+            <div class="alert alert-success fw-bold">${message}</div>
+        </c:if>
         
         <div class="card border border-warning shadow-sm">
             <!-- Header -->

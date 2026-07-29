@@ -27,6 +27,8 @@ public class LikeController extends HttpServlet {
         
         // 1. Kiểm tra đăng nhập
         if (user == null) {
+            String uri = req.getRequestURI() + (req.getQueryString() != null ? "?" + req.getQueryString() : "");
+            session.setAttribute("securityUri", uri);
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }

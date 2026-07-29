@@ -29,7 +29,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">MẬT KHẨU HIỆN TẠI?</label>
                             <div class="input-group">
-                                <input type="password" class="form-control border-warning" name="currentPassword" id="oldPwd" required>
+                                <input type="password" class="form-control border-warning" name="oldPassword" id="oldPwd" required>
                                 <button class="btn btn-outline-warning" type="button" onclick="toggleOldPwd()">
                                     <i class="fa-regular fa-eye" id="iconOld"></i>
                                 </button>
@@ -41,7 +41,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">MẬT KHẨU MỚI?</label>
                             <div class="input-group">
-                                <input type="password" class="form-control border-warning" name="newPassword" id="newPwd" required>
+                                <input type="password" class="form-control border-warning" name="newPassword" id="newPwd" required minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
                                 <button class="btn btn-outline-warning" type="button" onclick="toggleNewPwd()">
                                     <i class="fa-regular fa-eye" id="iconNew"></i>
                                 </button>
@@ -50,7 +50,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">XÁC NHẬN MẬT KHẨU MỚI?</label>
                             <div class="input-group">
-                                <input type="password" class="form-control border-warning" name="confirmPassword" id="cfPwd" required>
+                                <input type="password" class="form-control border-warning" name="confirmPassword" id="cfPwd" required minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
                                 <button class="btn btn-outline-warning" type="button" onclick="toggleCfPwd()">
                                     <i class="fa-regular fa-eye" id="iconCf"></i>
                                 </button>

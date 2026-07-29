@@ -24,12 +24,12 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">TÊN ĐĂNG NHẬP?</label>
-                            <input type="text" class="form-control border-warning" name="id" required>
+                            <input type="text" class="form-control border-warning" name="id" required minlength="4" pattern="^[a-zA-Z0-9_]+$" title="Ít nhất 4 ký tự, không chứa khoảng trắng hoặc ký tự đặc biệt">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">MẬT KHẨU?</label>
                             <div class="input-group">
-                                <input type="password" class="form-control border-warning" name="password" id="regPwd" required>
+                                <input type="password" class="form-control border-warning" name="password" id="regPwd" required minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
                                 <button class="btn btn-outline-warning" type="button" onclick="toggleRegPwd()">
                                     <i class="fa-regular fa-eye" id="iconReg"></i>
                                 </button>
@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">HỌ VÀ TÊN?</label>
-                            <input type="text" class="form-control border-warning" name="fullname" required>
+                            <input type="text" class="form-control border-warning" name="fullname" required minlength="3">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">ĐỊA CHỈ EMAIL?</label>
@@ -57,6 +57,22 @@
                     </button>
                 </div>
             </form>
+            
+            <script>
+                function toggleRegPwd() {
+                    var pwdInput = document.getElementById("regPwd");
+                    var icon = document.getElementById("iconReg");
+                    if (pwdInput.type === "password") {
+                        pwdInput.type = "text";
+                        icon.classList.remove("fa-eye");
+                        icon.classList.add("fa-eye-slash");
+                    } else {
+                        pwdInput.type = "password";
+                        icon.classList.remove("fa-eye-slash");
+                        icon.classList.add("fa-eye");
+                    }
+                }
+            </script>
             
             <div class="text-center mt-4 fw-bold">
                 <a href="${pageContext.request.contextPath}/login" class="text-decoration-none text-primary">Đã có tài khoản? Đăng nhập</a>

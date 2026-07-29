@@ -70,4 +70,16 @@ public class AbstractDAO<T> {
             em.close();
         }
     }
+    public List<T> findAll(int pageNumber, int pageSize) {
+        EntityManager em = JpaUtils.getEntityManager();
+        try {
+            String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e";
+            TypedQuery<T> query = em.createQuery(jpql, entityClass);
+            query.setFirstResult(pageNumber * pageSize);
+            query.setMaxResults(pageSize);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

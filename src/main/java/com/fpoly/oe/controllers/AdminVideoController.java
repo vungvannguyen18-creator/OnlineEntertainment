@@ -35,12 +35,10 @@ public class AdminVideoController extends HttpServlet {
             }
         }
         
-        // Lấy danh sách video (Không phân trang tạm thời hoặc phân trang 10 video)
-        // Mình sẽ lấy hết cho nhanh, trên JSP phân trang sau, hoặc dùng DAO
-        List<Video> videos = dao.findAll();
+        // Lấy danh sách video có phân trang
+        loadPagination(req, dao);
         
         req.setAttribute("formVideo", formVideo);
-        req.setAttribute("videos", videos);
         req.setAttribute("activeTab", activeTab);
         
         req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
@@ -53,36 +51,43 @@ public class AdminVideoController extends HttpServlet {
         
         try {
             Video video = new Video();
-            video.setId(req.getParameter("id"));
-            video.setTitle(req.getParameter("title"));
-            video.setViews(Integer.parseInt(req.getParameter("views")));
-            video.setDescription(req.getParameter("description"));
-            // Active checkbox (Nếu tick thì có giá trị "true", nếu không tick thì null)
-            String activeStr = req.getParameter("active");
-            video.setActive(activeStr != null);
             
-            // Poster có thể bỏ qua hoặc mặc định vì mình dùng ID Youtube
-            video.setPoster("yt_poster");
-            
-            if (uri.contains("/create")) {
-                dao.create(video);
-                req.setAttribute("message", "Thêm video thành công!");
-            } else if (uri.contains("/update")) {
-                dao.update(video);
-                req.setAttribute("message", "Cập nhật video thành công!");
-            } else if (uri.contains("/delete")) {
-                dao.delete(video.getId());
-                req.setAttribute("message", "Xóa video thành công!");
-                video = new Video(); // Xóa xong thì form trống
-            } else if (uri.contains("/approve") || uri.contains("/reject")) {
-                Video targetVideo = dao.findById(video.getId());
+            if (uri.contains("/approve") || uri.contains("/reject")) {
+                String videoId = req.getParameter("id");
+                Video targetVideo = dao.findById(videoId);
                 if (targetVideo != null) {
                     targetVideo.setActive(uri.contains("/approve"));
                     dao.update(targetVideo);
                     req.setAttribute("message", uri.contains("/approve") ? "Đã duyệt video!" : "Đã từ chối video!");
                 }
-                video = new Video();
                 req.setAttribute("activeTab", "videoList");
+            } else {
+                video.setId(req.getParameter("id"));
+                video.setTitle(req.getParameter("title"));
+                
+                String viewsStr = req.getParameter("views");
+                if (viewsStr != null && !viewsStr.isEmpty()) {
+                    video.setViews(Integer.parseInt(viewsStr));
+                } else {
+                    video.setViews(0);
+                }
+                
+                video.setDescription(req.getParameter("description"));
+                String activeStr = req.getParameter("active");
+                video.setActive(activeStr != null);
+                video.setPoster("yt_poster");
+                
+                if (uri.contains("/create")) {
+                    dao.create(video);
+                    req.setAttribute("message", "Thêm video thành công!");
+                } else if (uri.contains("/update")) {
+                    dao.update(video);
+                    req.setAttribute("message", "Cập nhật video thành công!");
+                } else if (uri.contains("/delete")) {
+                    dao.delete(video.getId());
+                    req.setAttribute("message", "Xóa video thành công!");
+                    video = new Video(); // Xóa xong thì form trống
+                }
             }
             
             req.setAttribute("formVideo", video);
@@ -95,8 +100,27 @@ public class AdminVideoController extends HttpServlet {
         }
         
         // Tải lại danh sách
-        List<Video> videos = dao.findAll();
-        req.setAttribute("videos", videos);
+        loadPagination(req, dao);
         req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
+    }
+    
+    private void loadPagination(HttpServletRequest req, VideoDAO dao) {
+        int page = 0;
+        String pageStr = req.getParameter("page");
+        if (pageStr != null) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (Exception e) {}
+        }
+        int pageSize = 10; // "Khởi đầu: hiển thị 10 tiểu phẩm"
+        long totalVideos = dao.countAllVideos();
+        int totalPages = (int) Math.ceil((double) totalVideos / pageSize);
+        if (page < 0) page = 0;
+        if (page >= totalPages && totalPages > 0) page = totalPages - 1;
+        
+        List<Video> videos = dao.findAll(page, pageSize);
+        req.setAttribute("videos", videos);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
     }
 }

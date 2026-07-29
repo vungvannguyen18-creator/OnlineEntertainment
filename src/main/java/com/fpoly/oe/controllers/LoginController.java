@@ -45,6 +45,13 @@ public class LoginController extends HttpServlet {
             User user = dao.findById(id);
             
             if (user != null && user.getPassword().equals(password)) {
+                // Kiểm tra xem tài khoản có bị khóa không
+                if (user.getActive() != null && !user.getActive()) {
+                    req.setAttribute("error", "Tài khoản của bạn đã bị khóa, không thể đăng nhập!");
+                    req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);
+                    return;
+                }
+                
                 // Đăng nhập thành công -> Lưu vào Session
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
@@ -68,7 +75,13 @@ public class LoginController extends HttpServlet {
                     resp.addCookie(cookiePwd);
                 }
                 
-                resp.sendRedirect(req.getContextPath() + "/home");
+                String securityUri = (String) session.getAttribute("securityUri");
+                if (securityUri != null) {
+                    session.removeAttribute("securityUri");
+                    resp.sendRedirect(securityUri);
+                } else {
+                    resp.sendRedirect(req.getContextPath() + "/home");
+                }
             } else {
                 req.setAttribute("error", "Sai tên đăng nhập hoặc mật khẩu!");
                 req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);

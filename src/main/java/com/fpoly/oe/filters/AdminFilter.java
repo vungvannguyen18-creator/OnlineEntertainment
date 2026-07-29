@@ -30,6 +30,7 @@ public class AdminFilter implements Filter {
         
         // Kiểm tra nếu chưa đăng nhập hoặc không phải admin
         if (user == null || !user.isAdmin()) {
+            session.setAttribute("securityUri", req.getRequestURI());
             req.setAttribute("error", "Bạn không có quyền truy cập vào khu vực quản trị!");
             req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);
             return;
