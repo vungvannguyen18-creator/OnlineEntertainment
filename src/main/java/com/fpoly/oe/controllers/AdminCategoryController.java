@@ -77,6 +77,9 @@ public class AdminCategoryController extends HttpServlet {
         
         List<Category> categories = dao.findAll();
         req.setAttribute("categories", categories);
+        // Làm mới bộ nhớ đệm danh mục toàn cục
+        req.getServletContext().setAttribute("globalCategories", categories);
+        
         req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
     }
 }

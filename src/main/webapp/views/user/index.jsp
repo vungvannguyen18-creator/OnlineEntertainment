@@ -4,6 +4,19 @@
 <!-- Nhúng Header -->
 <jsp:include page="/views/layout/header.jsp" />
 
+<div class="mb-4 pb-2" style="overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #eee;">
+    <a href="${pageContext.request.contextPath}/home" 
+       class="btn ${empty selectedCategory ? 'btn-dark' : 'btn-light border'} rounded-pill px-3 fw-bold me-2">
+        Tất cả Video
+    </a>
+    <c:forEach items="${applicationScope.globalCategories}" var="cat">
+        <a href="${pageContext.request.contextPath}/home?category=${cat.id}" 
+           class="btn ${selectedCategory == cat.id ? 'btn-dark' : 'btn-light border'} rounded-pill px-3 fw-bold me-2">
+            ${cat.name}
+        </a>
+    </c:forEach>
+</div>
+
 <h3 class="mb-4 fw-bold" style="color: #d32f2f;"><i class="fa-brands fa-youtube"></i> Video Nổi Bật</h3>
 
 <div class="row g-4">
@@ -36,13 +49,14 @@
 </div>
 
 <!-- Phân trang điều hướng (Yêu cầu của assignment) -->
+<c:set var="catParam" value="${not empty selectedCategory ? '&category=' += selectedCategory : ''}" />
 <div class="d-flex justify-content-center mt-4 mb-5">
     <nav>
         <ul class="pagination pagination-sm">
-            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold" href="${pageContext.request.contextPath}/home?page=0">|&lt;</a></li>
-            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${currentPage - 1 < 0 ? 0 : currentPage - 1}">&lt;&lt;</a></li>
-            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${currentPage + 1 >= totalPages ? totalPages - 1 : currentPage + 1}">&gt;&gt;</a></li>
-            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${totalPages - 1}">&gt;|</a></li>
+            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold" href="${pageContext.request.contextPath}/home?page=0${catParam}">|&lt;</a></li>
+            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${currentPage - 1 < 0 ? 0 : currentPage - 1}${catParam}">&lt;&lt;</a></li>
+            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${currentPage + 1 >= totalPages ? totalPages - 1 : currentPage + 1}${catParam}">&gt;&gt;</a></li>
+            <li class="page-item"><a class="page-link text-secondary bg-light fw-bold ms-1" href="${pageContext.request.contextPath}/home?page=${totalPages - 1}${catParam}">&gt;|</a></li>
         </ul>
     </nav>
 </div>

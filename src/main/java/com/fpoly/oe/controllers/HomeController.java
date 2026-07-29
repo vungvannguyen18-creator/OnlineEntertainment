@@ -29,11 +29,21 @@ public class HomeController  extends HttpServlet {
         }
         
         VideoDAO dao = new VideoDAO();
-        // Lấy 6 video theo số lượt xem giảm dần (trang hiện tại)
-        List<Video> videos = dao.findTop6VideosByViews(page);
+        String categoryId = req.getParameter("category");
+        
+        List<Video> videos;
+        long totalVideos;
+        
+        if (categoryId != null && !categoryId.isEmpty()) {
+            videos = dao.findTop6VideosByCategoryAndViews(categoryId, page);
+            totalVideos = dao.countVideosByCategory(categoryId);
+            req.setAttribute("selectedCategory", categoryId);
+        } else {
+            videos = dao.findTop6VideosByViews(page);
+            totalVideos = dao.countAllVideos();
+        }
         
         // Tính tổng số trang
-        long totalVideos = dao.countAllVideos();
         int totalPages = (int) Math.ceil((double) totalVideos / 6);
         
         // Đẩy dữ liệu sang JSP

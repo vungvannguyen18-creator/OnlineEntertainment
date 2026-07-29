@@ -43,11 +43,13 @@
     </button>
     
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto ms-4 gap-3">
         <!-- CHỈ HIỂN THỊ KHI ĐÃ ĐĂNG NHẬP -->
         <c:if test="${not empty sessionScope.user}">
             <li class="nav-item">
-                <a class="nav-link custom-link" href="${pageContext.request.contextPath}/favorites">VIDEO YÊU THÍCH</a>
+                <a class="nav-link custom-link" href="${pageContext.request.contextPath}/favorites">
+                    <i class="fas fa-heart me-1 text-danger"></i> VIDEO YÊU THÍCH
+                </a>
             </li>
         </c:if>
       </ul>
