@@ -52,6 +52,22 @@ public class AdminUserController extends HttpServlet {
             user.setPassword(req.getParameter("password"));
             user.setFullname(req.getParameter("fullname"));
             user.setEmail(req.getParameter("email"));
+            
+            // Validate
+            if (!uri.contains("/delete") && !uri.endsWith("/lock") && !uri.endsWith("/unlock")) {
+                if (user.getId() == null || user.getId().trim().isEmpty() ||
+                    user.getPassword() == null || user.getPassword().trim().isEmpty() ||
+                    user.getFullname() == null || user.getFullname().trim().isEmpty() ||
+                    user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+                    req.setAttribute("error", "Vui lòng nhập đầy đủ Mã, Mật khẩu, Họ tên và Email!");
+                    req.setAttribute("activeTab", "userEdition");
+                    req.setAttribute("formUser", user);
+                    req.setAttribute("users", dao.findAll());
+                    req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
+                    return;
+                }
+            }
+            
             // Lấy role từ radio button (nếu có)
             String roleStr = req.getParameter("role");
             user.setAdmin("true".equals(roleStr));

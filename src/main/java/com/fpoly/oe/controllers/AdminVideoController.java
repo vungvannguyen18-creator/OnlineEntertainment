@@ -77,6 +77,18 @@ public class AdminVideoController extends HttpServlet {
                 video.setActive(activeStr != null);
                 video.setPoster("yt_poster");
                 
+                if (!uri.contains("/delete")) {
+                    if (video.getId() == null || video.getId().trim().isEmpty() ||
+                        video.getTitle() == null || video.getTitle().trim().isEmpty()) {
+                        req.setAttribute("error", "Vui lòng nhập đầy đủ Mã YouTube và Tựa đề!");
+                        req.setAttribute("activeTab", "videoEdition");
+                        req.setAttribute("formVideo", video);
+                        loadPagination(req, dao);
+                        req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
+                        return;
+                    }
+                }
+                
                 if (uri.contains("/create")) {
                     dao.create(video);
                     req.setAttribute("message", "Thêm video thành công!");

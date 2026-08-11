@@ -64,7 +64,16 @@ public class AdminCategoryController extends HttpServlet {
                     // Ignore for create
                 }
             }
-            category.setName(req.getParameter("name"));
+            String name = req.getParameter("name");
+            if (!uri.contains("/delete") && (name == null || name.trim().isEmpty())) {
+                req.setAttribute("error", "Vui lòng nhập tên danh mục!");
+                req.setAttribute("activeTab", "edition");
+                req.setAttribute("formCategory", category);
+                req.setAttribute("categories", dao.findAll());
+                req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
+                return;
+            }
+            category.setName(name);
             
             if (uri.contains("/create")) {
                 dao.create(category);
