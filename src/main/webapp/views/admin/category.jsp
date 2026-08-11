@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
@@ -37,12 +37,12 @@
                   
                   <div class="row">
                       <div class="col-md-6 mb-4">
-                          <label class="form-label fw-bold">MÃ DANH MỤC?</label>
-                          <input type="text" class="form-control border-warning" name="id" value="${formCategory.id}" required <c:if test="${not empty formCategory.id}">readonly</c:if>>
+                          <label class="form-label fw-bold">MÃ DANH MỤC? (Tự động)</label>
+                          <input type="text" class="form-control border-warning bg-light" name="id" value="${formCategory.id}" readonly placeholder="Hệ thống tự tạo">
                       </div>
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">TÊN DANH MỤC?</label>
-                          <input type="text" class="form-control border-warning" name="name" value="${formCategory.name}" required>
+                          <input type="text" class="form-control border-warning" name="name" value="${formCategory.name}">
                       </div>
                   </div>
                   

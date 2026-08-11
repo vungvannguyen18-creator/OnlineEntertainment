@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/header.jsp" />
@@ -24,12 +24,12 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">TÊN ĐĂNG NHẬP?</label>
-                            <input type="text" class="form-control border-warning" name="id" required minlength="4" pattern="^[a-zA-Z0-9_]+$" title="Ít nhất 4 ký tự, không chứa khoảng trắng hoặc ký tự đặc biệt">
+                            <input type="text" class="form-control border-warning" name="id" minlength="4" pattern="^[a-zA-Z0-9_]+$" title="Ít nhất 4 ký tự, không chứa khoảng trắng hoặc ký tự đặc biệt">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">MẬT KHẨU?</label>
                             <div class="input-group">
-                                <input type="password" class="form-control border-warning" name="password" id="regPwd" required minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
+                                <input type="password" class="form-control border-warning" name="password" id="regPwd" minlength="6" title="Mật khẩu phải có ít nhất 6 ký tự">
                                 <button class="btn btn-outline-warning" type="button" onclick="toggleRegPwd()">
                                     <i class="fa-regular fa-eye" id="iconReg"></i>
                                 </button>
@@ -40,11 +40,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">HỌ VÀ TÊN?</label>
-                            <input type="text" class="form-control border-warning" name="fullname" required minlength="3">
+                            <input type="text" class="form-control border-warning" name="fullname" minlength="3">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">ĐỊA CHỈ EMAIL?</label>
-                            <input type="email" class="form-control border-warning" name="email" required>
+                            <input type="email" class="form-control border-warning" name="email">
                         </div>
                     </div>
                 </div>

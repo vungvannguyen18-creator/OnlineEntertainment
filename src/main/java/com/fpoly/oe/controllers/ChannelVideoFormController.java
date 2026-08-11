@@ -46,8 +46,8 @@ public class ChannelVideoFormController extends HttpServlet {
                 bean.setDescription(video.getDescription());
                 bean.setViews(video.getViews());
                 bean.setActive(video.isActive());
-                if (video.getCategory() != null) {
-                    bean.setCategoryId(video.getCategory().getId());
+                if (video.getCategory() != null && video.getCategory().getId() != null) {
+                    bean.setCategoryId(String.valueOf(video.getCategory().getId()));
                 }
                 req.setAttribute("formVideo", bean);
             }

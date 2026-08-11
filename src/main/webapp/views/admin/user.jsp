@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
@@ -38,22 +38,22 @@
                   <div class="row">
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">TÊN ĐĂNG NHẬP?</label>
-                          <input type="text" class="form-control border-warning" name="id" value="${formUser.id}" required <c:if test="${not empty formUser.id}">readonly</c:if>>
+                          <input type="text" class="form-control border-warning" name="id" value="${formUser.id}" <c:if test="${not empty formUser.id}">readonly</c:if>>
                       </div>
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">MẬT KHẨU?</label>
-                          <input type="password" class="form-control border-warning" name="password" value="${formUser.password}" required>
+                          <input type="password" class="form-control border-warning" name="password" value="${formUser.password}">
                       </div>
                   </div>
                   
                   <div class="row">
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">HỌ VÀ TÊN?</label>
-                          <input type="text" class="form-control border-warning" name="fullname" value="${formUser.fullname}" required>
+                          <input type="text" class="form-control border-warning" name="fullname" value="${formUser.fullname}">
                       </div>
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">ĐỊA CHỈ EMAIL?</label>
-                          <input type="email" class="form-control border-warning" name="email" value="${formUser.email}" required>
+                          <input type="email" class="form-control border-warning" name="email" value="${formUser.email}">
                       </div>
                   </div>
                   

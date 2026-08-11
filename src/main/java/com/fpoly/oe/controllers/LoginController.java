@@ -41,6 +41,12 @@ public class LoginController extends HttpServlet {
         String remember = req.getParameter("remember");
         
         try {
+            if (id == null || id.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+                req.setAttribute("error", "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
+                req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);
+                return;
+            }
+
             UserDAO dao = new UserDAO();
             User user = dao.findById(id);
             

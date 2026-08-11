@@ -25,10 +25,15 @@ public class AdminCategoryController extends HttpServlet {
         String activeTab = "list"; // Mặc định hiển thị danh sách
         
         if (uri.contains("/edit")) {
-            String id = req.getParameter("id");
-            if (id != null) {
-                formCategory = dao.findById(id);
-                activeTab = "edition";
+            String idStr = req.getParameter("id");
+            if (idStr != null && !idStr.isEmpty()) {
+                try {
+                    Long id = Long.parseLong(idStr);
+                    formCategory = dao.findById(id);
+                    activeTab = "edition";
+                } catch (NumberFormatException e) {
+                    // Ignore or handle
+                }
             }
         }
         
@@ -51,7 +56,14 @@ public class AdminCategoryController extends HttpServlet {
         
         try {
             Category category = new Category();
-            category.setId(req.getParameter("id"));
+            String idStr = req.getParameter("id");
+            if (idStr != null && !idStr.isEmpty()) {
+                try {
+                    category.setId(Long.parseLong(idStr));
+                } catch (NumberFormatException e) {
+                    // Ignore for create
+                }
+            }
             category.setName(req.getParameter("name"));
             
             if (uri.contains("/create")) {

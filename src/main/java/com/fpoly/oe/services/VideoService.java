@@ -42,7 +42,7 @@ public class VideoService {
         video.setUser(user); // Set channel owner
         
         if (bean.getCategoryId() != null && !bean.getCategoryId().trim().isEmpty()) {
-            com.fpoly.oe.entities.Category cat = new com.fpoly.oe.dao.CategoryDAO().findById(bean.getCategoryId());
+            com.fpoly.oe.entities.Category cat = new com.fpoly.oe.dao.CategoryDAO().findById(Long.parseLong(bean.getCategoryId()));
             video.setCategory(cat);
         }
         
@@ -79,7 +79,7 @@ public class VideoService {
         video.setActive(bean.isActive());
         
         if (bean.getCategoryId() != null && !bean.getCategoryId().trim().isEmpty()) {
-            com.fpoly.oe.entities.Category cat = new com.fpoly.oe.dao.CategoryDAO().findById(bean.getCategoryId());
+            com.fpoly.oe.entities.Category cat = new com.fpoly.oe.dao.CategoryDAO().findById(Long.parseLong(bean.getCategoryId()));
             video.setCategory(cat);
         }
 

@@ -26,6 +26,12 @@ public class ForgotPasswordController extends HttpServlet {
         String email = req.getParameter("email");
         
         try {
+            if (id == null || id.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+                req.setAttribute("error", "Vui lòng nhập đầy đủ Tên đăng nhập và Email!");
+                req.getRequestDispatcher("/views/user/forgot-password.jsp").forward(req, resp);
+                return;
+            }
+
             UserDAO dao = new UserDAO();
             User user = dao.findById(id);
             

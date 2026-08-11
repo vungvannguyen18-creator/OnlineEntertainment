@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/header.jsp" />
@@ -35,11 +35,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">HỌ VÀ TÊN?</label>
-                            <input type="text" class="form-control border-warning" name="fullname" value="${sessionScope.user.fullname}" required>
+                            <input type="text" class="form-control border-warning" name="fullname" value="${sessionScope.user.fullname}">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold text-dark" style="font-size: 16px;">ĐỊA CHỈ EMAIL?</label>
-                            <input type="email" class="form-control border-warning" name="email" value="${sessionScope.user.email}" required>
+                            <input type="email" class="form-control border-warning" name="email" value="${sessionScope.user.email}">
                         </div>
                     </div>
                 </div>

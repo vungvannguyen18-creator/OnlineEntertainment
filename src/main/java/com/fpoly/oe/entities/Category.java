@@ -2,6 +2,8 @@ package com.fpoly.oe.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,15 +17,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "Categories")
 public class Category {
     @Id
-    @Column(name = "Id", length = 50)
-    private String id;
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Long id;
     
     @Column(name = "Name", nullable = false, columnDefinition = "NVARCHAR(255)")
     private String name;
     
     // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

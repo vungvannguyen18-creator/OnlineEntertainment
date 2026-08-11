@@ -35,9 +35,15 @@ public class HomeController  extends HttpServlet {
         long totalVideos;
         
         if (categoryId != null && !categoryId.isEmpty()) {
-            videos = dao.findTop6VideosByCategoryAndViews(categoryId, page);
-            totalVideos = dao.countVideosByCategory(categoryId);
-            req.setAttribute("selectedCategory", categoryId);
+            try {
+                Long catId = Long.parseLong(categoryId);
+                videos = dao.findTop6VideosByCategoryAndViews(catId, page);
+                totalVideos = dao.countVideosByCategory(catId);
+                req.setAttribute("selectedCategory", catId);
+            } catch (NumberFormatException e) {
+                videos = dao.findTop6VideosByViews(page);
+                totalVideos = dao.countAllVideos();
+            }
         } else {
             videos = dao.findTop6VideosByViews(page);
             totalVideos = dao.countAllVideos();

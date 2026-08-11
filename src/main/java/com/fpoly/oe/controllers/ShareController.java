@@ -64,6 +64,15 @@ public class ShareController extends HttpServlet {
         String email = req.getParameter("email");
         
         try {
+            if (email == null || email.trim().isEmpty()) {
+                VideoDAO videoDao = new VideoDAO();
+                Video video = videoDao.findById(videoId);
+                req.setAttribute("video", video);
+                req.setAttribute("error", "Vui lòng nhập địa chỉ email!");
+                req.getRequestDispatcher("/views/user/share.jsp").forward(req, resp);
+                return;
+            }
+
             VideoDAO videoDao = new VideoDAO();
             Video video = videoDao.findById(videoId);
             

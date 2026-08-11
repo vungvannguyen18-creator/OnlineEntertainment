@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!-- Nhúng Header -->
@@ -24,14 +24,14 @@
                 <div class="card-body" style="padding: 20px;">
                     <div class="mb-3">
                         <label class="form-label fw-bold text-dark" style="font-size: 16px;">TÊN ĐĂNG NHẬP?</label>
-                        <input type="text" class="form-control border-warning" name="id" required
+                        <input type="text" class="form-control border-warning" name="id"
                                value="${saved_id != null ? saved_id : ''}">
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label fw-bold text-dark" style="font-size: 16px;">MẬT KHẨU?</label>
                         <div class="input-group">
-                            <input type="password" class="form-control border-warning" name="password" id="loginPwd" required
+                            <input type="password" class="form-control border-warning" name="password" id="loginPwd"
                                    value="${saved_pwd != null ? saved_pwd : ''}">
                             <button class="btn btn-outline-warning" type="button" onclick="toggleLoginPwd()">
                                 <i class="fa-regular fa-eye" id="iconLogin"></i>

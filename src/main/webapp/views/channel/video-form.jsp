@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/header.jsp" />
@@ -18,12 +18,12 @@
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">MÃ YOUTUBE / MÃ VIDEO (*)</label>
-                            <input type="text" class="form-control border-warning" name="id" value="${formVideo.id}" required placeholder="Nhập ID video (vd: dQw4w9WgXcQ)" ${not empty formVideo.id ? 'readonly' : ''}>
+                            <input type="text" class="form-control border-warning" name="id" value="${formVideo.id}" placeholder="Nhập ID video (vd: dQw4w9WgXcQ)" ${not empty formVideo.id ? 'readonly' : ''}>
                         </div>
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">TIÊU ĐỀ VIDEO (*)</label>
-                            <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}" required placeholder="Nhập tiêu đề video">
+                            <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}" placeholder="Nhập tiêu đề video">
                         </div>
                         
                         <div class="mb-3">

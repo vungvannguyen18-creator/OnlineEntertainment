@@ -46,6 +46,17 @@ public class EditProfileController extends HttpServlet {
         String email = req.getParameter("email");
         
         try {
+            if (fullname == null || fullname.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+                req.setAttribute("error", "Vui lòng nhập đầy đủ Họ Tên và Email!");
+                
+                com.fpoly.oe.dao.ChannelRequestDAO channelDAO = new com.fpoly.oe.dao.ChannelRequestDAO();
+                com.fpoly.oe.entities.ChannelRequest channelReq = channelDAO.findByUserId(currentUser.getId());
+                req.setAttribute("channelRequest", channelReq);
+                
+                req.getRequestDispatcher("/views/user/edit-profile.jsp").forward(req, resp);
+                return;
+            }
+
             UserDAO dao = new UserDAO();
             currentUser.setFullname(fullname);
             currentUser.setEmail(email);

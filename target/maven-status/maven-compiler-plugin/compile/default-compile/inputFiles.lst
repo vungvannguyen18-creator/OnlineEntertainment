@@ -34,8 +34,9 @@ D:\OnlineEntertainment\src\main\java\com\fpoly\oe\entities\User.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\entities\Video.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\filters\AdminFilter.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\filters\ChannelFilter.java
+D:\OnlineEntertainment\src\main\java\com\fpoly\oe\filters\GlobalFilter.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\services\VideoService.java
+D:\OnlineEntertainment\src\main\java\com\fpoly\oe\utils\EmailUtils.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\utils\JpaUtils.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\utils\TestData.java
 D:\OnlineEntertainment\src\main\java\com\fpoly\oe\utils\TestDB.java
-D:\OnlineEntertainment\src\main\java\com\fpoly\oe\utils\TestLogin.java

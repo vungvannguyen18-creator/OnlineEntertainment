@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/header.jsp" />
@@ -23,12 +23,12 @@
                 <div class="card-body" style="padding: 20px;">
                     <div class="mb-3">
                         <label class="form-label fw-bold text-dark" style="font-size: 16px;">TÊN ĐĂNG NHẬP?</label>
-                        <input type="text" class="form-control border-warning" name="id" required>
+                        <input type="text" class="form-control border-warning" name="id">
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label fw-bold text-dark" style="font-size: 16px;">ĐỊA CHỈ EMAIL?</label>
-                        <input type="email" class="form-control border-warning" name="email" required>
+                        <input type="email" class="form-control border-warning" name="email">
                     </div>
                 </div>
                 

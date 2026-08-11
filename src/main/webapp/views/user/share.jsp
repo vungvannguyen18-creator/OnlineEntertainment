@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/header.jsp" />
@@ -23,7 +23,7 @@
                 <div class="card-body" style="padding: 30px 20px;">
                     <input type="hidden" name="videoId" value="${video.id}">
                     <label class="form-label fw-bold text-dark" style="font-size: 16px;">YOUR FRIEND'S EMAIL?</label>
-                    <input type="email" class="form-control border-warning" name="email" multiple required 
+                    <input type="email" class="form-control border-warning" name="email" multiple 
                            placeholder="Nhập email, cách nhau bằng dấu phẩy...">
                 </div>
                 
