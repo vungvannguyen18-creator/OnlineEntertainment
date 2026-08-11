@@ -46,6 +46,11 @@ public class RegisterController extends HttpServlet {
                 req.getRequestDispatcher("/views/user/register.jsp").forward(req, resp);
                 return;
             }
+            if (email == null || email.trim().isEmpty()) {
+                req.setAttribute("error", "Email không được để trống!");
+                req.getRequestDispatcher("/views/user/register.jsp").forward(req, resp);
+                return;
+            }
             
             // Check if user exists
             if (dao.findById(id) != null) {
