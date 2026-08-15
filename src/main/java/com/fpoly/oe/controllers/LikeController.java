@@ -71,10 +71,10 @@ public class LikeController extends HttpServlet {
         
         // 4. Quay về trang trước đó (Referer)
         String referer = req.getHeader("Referer");
-        if (referer != null) {
+        if (referer != null && !referer.contains("/login") && !referer.contains("/register")) {
             resp.sendRedirect(referer);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/home");
+            resp.sendRedirect(req.getContextPath() + "/video?id=" + videoId);
         }
     }
 }

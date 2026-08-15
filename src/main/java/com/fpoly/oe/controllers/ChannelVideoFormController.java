@@ -82,6 +82,7 @@ public class ChannelVideoFormController extends HttpServlet {
             bean.setDescription(req.getParameter("description"));
             bean.setCategoryId(req.getParameter("categoryId"));
             bean.setPosterPart(req.getPart("poster"));
+            bean.setVideoPart(req.getPart("video"));
             
             String activeStr = req.getParameter("active");
             bean.setActive("true".equals(activeStr));

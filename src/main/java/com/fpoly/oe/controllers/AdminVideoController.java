@@ -13,6 +13,11 @@ import com.fpoly.oe.dao.VideoDAO;
 import com.fpoly.oe.entities.Video;
 
 @WebServlet({"/admin/video", "/admin/video/create", "/admin/video/update", "/admin/video/delete", "/admin/video/edit", "/admin/video/approve", "/admin/video/reject"})
+@jakarta.servlet.annotation.MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 100,      // 100MB
+    maxRequestSize = 1024 * 1024 * 110    // 110MB
+)
 public class AdminVideoController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
@@ -74,13 +79,67 @@ public class AdminVideoController extends HttpServlet {
                 
                 video.setDescription(req.getParameter("description"));
                 String activeStr = req.getParameter("active");
-                video.setActive(activeStr != null);
-                video.setPoster("yt_poster");
+                video.setActive("true".equals(activeStr));
                 
+                String uploadPath = req.getServletContext().getRealPath("") + java.io.File.separator + "uploads";
+                
+                if (uri.contains("/create")) {
+                    jakarta.servlet.http.Part videoPart = req.getPart("video");
+                    if (videoPart != null && videoPart.getSize() > 0) {
+                        String originalFileName = java.nio.file.Paths.get(videoPart.getSubmittedFileName()).getFileName().toString();
+                        String ext = "";
+                        int i = originalFileName.lastIndexOf('.');
+                        if (i >= 0) ext = originalFileName.substring(i);
+                        String newVideoId = java.util.UUID.randomUUID().toString().substring(0, 8) + ext;
+                        if (ext.isEmpty()) newVideoId += ".mp4";
+                        
+                        java.io.File uploadDir = new java.io.File(uploadPath);
+                        if (!uploadDir.exists()) uploadDir.mkdir();
+                        videoPart.write(uploadPath + java.io.File.separator + newVideoId);
+                        video.setId(newVideoId);
+                    }
+                } else {
+                    jakarta.servlet.http.Part videoPart = req.getPart("video");
+                    if (videoPart != null && videoPart.getSize() > 0 && video.getId() != null) {
+                        java.io.File uploadDir = new java.io.File(uploadPath);
+                        if (!uploadDir.exists()) uploadDir.mkdir();
+                        videoPart.write(uploadPath + java.io.File.separator + video.getId());
+                    }
+                }
+                
+                jakarta.servlet.http.Part posterPart = null;
+                try { posterPart = req.getPart("poster"); } catch(Exception e) {}
+                
+                String fileName = null;
+                if (posterPart != null && posterPart.getSize() > 0) {
+                    fileName = java.nio.file.Paths.get(posterPart.getSubmittedFileName()).getFileName().toString();
+                    java.io.File uploadDir = new java.io.File(uploadPath);
+                    if (!uploadDir.exists()) uploadDir.mkdir();
+                    posterPart.write(uploadPath + java.io.File.separator + fileName);
+                    video.setPoster(fileName);
+                } else if (uri.contains("/create")) {
+                    video.setPoster(video.getId());
+                } else {
+                    Video existing = dao.findById(video.getId());
+                    if (existing != null) video.setPoster(existing.getPoster());
+                }
+                
+                com.fpoly.oe.entities.User adminUser = (com.fpoly.oe.entities.User) req.getSession().getAttribute("user");
+                if (uri.contains("/create")) {
+                    video.setUser(adminUser);
+                } else if (uri.contains("/update")) {
+                    Video existing = dao.findById(video.getId());
+                    if (existing != null) {
+                        video.setUser(existing.getUser());
+                        video.setCategory(existing.getCategory());
+                        video.setUploadDate(existing.getUploadDate());
+                    }
+                }
+
                 if (!uri.contains("/delete")) {
                     if (video.getId() == null || video.getId().trim().isEmpty() ||
                         video.getTitle() == null || video.getTitle().trim().isEmpty()) {
-                        req.setAttribute("error", "Vui lòng nhập đầy đủ Mã YouTube và Tựa đề!");
+                        req.setAttribute("error", "Vui lòng nhập đầy đủ thông tin hoặc chọn file video!");
                         req.setAttribute("activeTab", "videoEdition");
                         req.setAttribute("formVideo", video);
                         loadPagination(req, dao);
@@ -89,25 +148,36 @@ public class AdminVideoController extends HttpServlet {
                     }
                 }
                 
+                String activeTab = "videoEdition";
+                
                 if (uri.contains("/create")) {
                     dao.create(video);
                     req.setAttribute("message", "Thêm video thành công!");
+                    video = new Video();
+                    activeTab = "videoList";
                 } else if (uri.contains("/update")) {
                     dao.update(video);
                     req.setAttribute("message", "Cập nhật video thành công!");
+                    video = new Video();
+                    activeTab = "videoList";
                 } else if (uri.contains("/delete")) {
                     dao.delete(video.getId());
                     req.setAttribute("message", "Xóa video thành công!");
                     video = new Video(); // Xóa xong thì form trống
+                    activeTab = "videoList";
                 }
+                
+                req.setAttribute("formVideo", video);
+                req.setAttribute("activeTab", activeTab);
             }
-            
-            req.setAttribute("formVideo", video);
-            req.setAttribute("activeTab", "videoEdition");
             
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("error", "Lỗi thao tác dữ liệu: " + e.getMessage());
+            String errorMsg = "Lỗi thao tác dữ liệu: " + e.getMessage();
+            if (uri.contains("/delete")) {
+                errorMsg = "Không thể xóa video này vì đang có dữ liệu liên quan (Lượt thích, Chia sẻ...). Vui lòng vô hiệu hóa thay vì xóa!";
+            }
+            req.setAttribute("error", errorMsg);
             req.setAttribute("activeTab", "videoEdition");
         }
         

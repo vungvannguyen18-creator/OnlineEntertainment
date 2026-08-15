@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
@@ -37,8 +37,8 @@
                   
                   <div class="row">
                       <div class="col-md-6 mb-4">
-                          <label class="form-label fw-bold">MÃ DANH MỤC? (Tự động)</label>
-                          <input type="text" class="form-control border-warning bg-light" name="id" value="${formCategory.id}" readonly placeholder="Hệ thống tự tạo">
+                          <label class="form-label fw-bold">MÃ DANH MỤC?</label>
+                          <input type="text" class="form-control border-warning ${isEdit ? 'bg-light' : ''}" name="id" value="${formCategory.id}" ${isEdit ? 'readonly' : ''} placeholder="Nhập mã danh mục (bằng số)">
                       </div>
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">TÊN DANH MỤC?</label>
@@ -49,9 +49,9 @@
                   <!-- Nút bấm -->
                   <div class="row border-top border-warning pt-3 mt-2">
                       <div class="col-12 d-flex justify-content-end gap-2">
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/create" class="btn btn-secondary fw-bold" ${not empty formCategory.id ? 'disabled' : ''}>Thêm mới</button>
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/update" class="btn btn-secondary fw-bold" ${empty formCategory.id ? 'disabled' : ''}>Cập nhật</button>
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/delete" class="btn btn-secondary fw-bold" ${empty formCategory.id ? 'disabled' : ''} onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');">Xóa</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/create" class="btn btn-secondary fw-bold" ${isEdit ? 'disabled' : ''}>Thêm mới</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/update" class="btn btn-secondary fw-bold" ${not isEdit ? 'disabled' : ''}>Cập nhật</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/delete" class="btn btn-secondary fw-bold" ${not isEdit ? 'disabled' : ''} onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');">Xóa</button>
                           <a href="${pageContext.request.contextPath}/admin/category" class="btn btn-secondary fw-bold">Làm mới</a>
                       </div>
                   </div>
@@ -84,6 +84,15 @@
                       </c:forEach>
                   </tbody>
               </table>
+          </div>
+          <div class="card-footer bg-light d-flex justify-content-between align-items-center border-warning">
+              <span class="fw-bold">Đang hiển thị ${categories.size()} danh mục (Trang ${currentPage + 1}/${totalPages}) - Tổng: ${totalCount}</span>
+              <div class="btn-group">
+                  <a href="${pageContext.request.contextPath}/admin/category?page=0" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">|&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/category?page=${currentPage - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">&lt;&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/category?page=${currentPage + 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;&gt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/category?page=${totalPages - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;|</a>
+              </div>
           </div>
       </div>
   </div>

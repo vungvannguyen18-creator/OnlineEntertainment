@@ -82,4 +82,14 @@ public class AbstractDAO<T> {
             em.close();
         }
     }
+    public long countAll() {
+        EntityManager em = JpaUtils.getEntityManager();
+        try {
+            String jpql = "SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e";
+            TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+            return query.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -29,13 +29,13 @@ public class AdminUserController extends HttpServlet {
             if (id != null) {
                 formUser = dao.findById(id);
                 activeTab = "userEdition";
+                req.setAttribute("isEdit", true);
             }
         }
         
-        List<User> users = dao.findAll();
+        loadPagination(req, dao);
         
         req.setAttribute("formUser", formUser);
-        req.setAttribute("users", users);
         req.setAttribute("activeTab", activeTab);
         
         req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
@@ -62,7 +62,7 @@ public class AdminUserController extends HttpServlet {
                     req.setAttribute("error", "Vui lòng nhập đầy đủ Mã, Mật khẩu, Họ tên và Email!");
                     req.setAttribute("activeTab", "userEdition");
                     req.setAttribute("formUser", user);
-                    req.setAttribute("users", dao.findAll());
+                    loadPagination(req, dao);
                     req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
                     return;
                 }
@@ -72,12 +72,26 @@ public class AdminUserController extends HttpServlet {
             String roleStr = req.getParameter("role");
             user.setAdmin("true".equals(roleStr));
             
+            String activeTab = "userEdition";
+            
             if (uri.contains("/create")) {
+                User existingId = dao.findById(user.getId());
+                if (existingId != null) {
+                    throw new Exception("Mã người dùng đã tồn tại!");
+                }
                 dao.create(user);
                 req.setAttribute("message", "Thêm người dùng thành công!");
+                user = new User();
+                activeTab = "userList";
             } else if (uri.contains("/update")) {
+                User existing = dao.findById(user.getId());
+                if (existing != null) {
+                    user.setActive(existing.getActive()); // Preserve active state
+                }
                 dao.update(user);
                 req.setAttribute("message", "Cập nhật người dùng thành công!");
+                user = new User();
+                activeTab = "userList";
             } else if (uri.contains("/delete")) {
                 // Không cho phép tự xóa chính mình nếu đang login
                 User sessionUser = (User) req.getSession().getAttribute("user");
@@ -87,6 +101,7 @@ public class AdminUserController extends HttpServlet {
                     dao.delete(user.getId());
                     req.setAttribute("message", "Xóa người dùng thành công!");
                     user = new User(); // Xóa xong thì form trống
+                    activeTab = "userList";
                 }
             } else if (uri.endsWith("/lock") || uri.endsWith("/unlock")) {
                 User targetUser = dao.findById(user.getId());
@@ -109,12 +124,12 @@ public class AdminUserController extends HttpServlet {
                         req.setAttribute("message", !isLockAction ? "Đã mở khóa tài khoản!" : "Đã khóa tài khoản!");
                     }
                     user = new User(); // Xóa form
-                    req.setAttribute("activeTab", "userList"); // Trở lại tab list
+                    activeTab = "userList"; // Trở lại tab list
                 }
             }
             
             req.setAttribute("formUser", user);
-            req.setAttribute("activeTab", "userEdition");
+            req.setAttribute("activeTab", activeTab);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,8 +145,28 @@ public class AdminUserController extends HttpServlet {
             req.setAttribute("activeTab", "userEdition");
         }
         
-        List<User> users = dao.findAll();
-        req.setAttribute("users", users);
+        loadPagination(req, dao);
         req.getRequestDispatcher("/views/admin/user.jsp").forward(req, resp);
+    }
+    
+    private void loadPagination(HttpServletRequest req, UserDAO dao) {
+        int page = 0;
+        String pageStr = req.getParameter("page");
+        if (pageStr != null) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (Exception e) {}
+        }
+        int pageSize = 10;
+        long totalUsers = dao.countAll();
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+        if (page < 0) page = 0;
+        if (page >= totalPages && totalPages > 0) page = totalPages - 1;
+        
+        List<User> users = dao.findAll(page, pageSize);
+        req.setAttribute("users", users);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalCount", totalUsers);
     }
 }

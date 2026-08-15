@@ -30,11 +30,16 @@ public class HomeController  extends HttpServlet {
         
         VideoDAO dao = new VideoDAO();
         String categoryId = req.getParameter("category");
+        String searchKeyword = req.getParameter("search");
         
         List<Video> videos;
         long totalVideos;
         
-        if (categoryId != null && !categoryId.isEmpty()) {
+        if (searchKeyword != null && !searchKeyword.trim().isEmpty()) {
+            videos = dao.findTop6VideosByTitle(searchKeyword.trim(), page);
+            totalVideos = dao.countVideosByTitle(searchKeyword.trim());
+            req.setAttribute("searchKeyword", searchKeyword.trim());
+        } else if (categoryId != null && !categoryId.isEmpty()) {
             try {
                 Long catId = Long.parseLong(categoryId);
                 videos = dao.findTop6VideosByCategoryAndViews(catId, page);

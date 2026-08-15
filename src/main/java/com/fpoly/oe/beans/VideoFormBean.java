@@ -13,13 +13,15 @@ public class VideoFormBean {
     private boolean active;
     private String categoryId;
     
+    private Part videoPart;
+
     // Validate data
     public String validate(boolean isEdit) {
-        if (id == null || id.trim().isEmpty()) {
-            return "Mã video không được để trống!";
-        }
         if (title == null || title.trim().isEmpty()) {
             return "Tiêu đề không được để trống!";
+        }
+        if (!isEdit && (videoPart == null || videoPart.getSize() == 0)) {
+            return "Vui lòng chọn file video!";
         }
         if (!isEdit && (posterPart == null || posterPart.getSize() == 0)) {
             return "Vui lòng chọn ảnh poster!";

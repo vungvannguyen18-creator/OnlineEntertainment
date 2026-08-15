@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration Tool</title>
+    <title>Creator Studio</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
@@ -84,30 +84,6 @@
             box-shadow: none !important; 
         }
         
-        /* Admin Tabs & Form */
-        .nav-tabs {
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .nav-tabs .nav-link { 
-            color: #606060; 
-            font-weight: 500; 
-            border: none;
-            padding: 12px 24px;
-            border-radius: 0;
-            transition: color 0.2s;
-            margin-bottom: -1px;
-        }
-        .nav-tabs .nav-link:hover {
-            background-color: transparent;
-            color: #0f0f0f;
-        }
-        .nav-tabs .nav-link.active { 
-            color: #0f0f0f; 
-            font-weight: 500; 
-            border-bottom: 3px solid #0f0f0f;
-            background-color: transparent;
-        }
-        
         /* Admin Buttons */
         .btn { 
             border-radius: 18px !important; 
@@ -159,8 +135,8 @@
 <div class="container mt-4">
     <!-- Thanh Menu Admin -->
     <nav class="navbar navbar-expand-lg admin-navbar">
-        <a class="navbar-brand admin-brand" href="${pageContext.request.contextPath}/admin/video">
-            CÔNG CỤ QUẢN TRỊ
+        <a class="navbar-brand admin-brand" href="${pageContext.request.contextPath}/channel/videos">
+            YOUTUBE STUDIO
         </a>
         <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
             <span class="navbar-toggler-icon"></span>
@@ -169,25 +145,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="adminNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/home"><i class="fa-solid fa-house"></i> TRANG CHỦ</a>
+                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/home"><i class="fa-solid fa-house"></i> TRANG CHỦ YOUTUBE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/admin/video"><i class="fa-solid fa-video"></i> VIDEO</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/admin/category"><i class="fa-solid fa-tags"></i> DANH MỤC</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/admin/user"><i class="fa-solid fa-users"></i> NGƯỜI DÙNG</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/admin/report"><i class="fa-solid fa-chart-pie"></i> BÁO CÁO</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/admin/channel-request"><i class="fa-solid fa-address-card"></i> DUYỆT KÊNH</a>
-                </li>
-                <li class="nav-item ms-3 border-start ps-3">
-                    <a class="nav-link text-white fw-bold" href="${pageContext.request.contextPath}/logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <a class="nav-link admin-link" href="${pageContext.request.contextPath}/channel/videos"><i class="fa-solid fa-video"></i> NỘI DUNG KÊNH</a>
                 </li>
             </ul>
         </div>

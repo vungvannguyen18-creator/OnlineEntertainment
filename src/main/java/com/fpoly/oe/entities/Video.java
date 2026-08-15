@@ -29,6 +29,10 @@ private int views = 0;
 private String description;
 	@Column(name = "Active")
 	private boolean active = true;
+	
+	@jakarta.persistence.Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
+	@Column(name = "UploadDate")
+	private java.util.Date uploadDate = new java.util.Date();
 
 	@ManyToOne
 	@JoinColumn(name = "UserId")

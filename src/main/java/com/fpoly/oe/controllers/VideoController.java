@@ -25,6 +25,16 @@ public class VideoController extends HttpServlet {
 	            Video v = dao.findById(id); // Tìm video trong DB
 	            
 	            if (v != null) {
+	                com.fpoly.oe.entities.User user = (com.fpoly.oe.entities.User) req.getSession().getAttribute("user");
+	                
+	                // Nếu video không active (nháp), chỉ chủ sở hữu hoặc admin mới được xem
+	                if (!v.isActive()) {
+	                    if (user == null || (!user.getId().equals(v.getUser().getId()) && !user.isAdmin())) {
+	                        resp.sendRedirect("home");
+	                        return;
+	                    }
+	                }
+	                
 	                // 1. Tăng lượt xem lên 1 và Lưu lại vào Database
 	                v.setViews(v.getViews() + 1);
 	                dao.update(v);
@@ -62,7 +72,30 @@ public class VideoController extends HttpServlet {
 	                java.util.List<Video> viewedVideos = dao.findVideosByIds(viewedIds);
 	                req.setAttribute("viewedVideos", viewedVideos);
 	                
-	                // 4. Gửi Video này sang trang Chi tiết để hiển thị
+	                // Kiểm tra xem User đã đăng ký kênh này chưa
+	                if (user != null && v.getUser() != null) {
+	                    com.fpoly.oe.dao.FollowDAO followDAO = new com.fpoly.oe.dao.FollowDAO();
+	                    boolean isFollowing = followDAO.isFollowing(user.getId(), v.getUser().getId());
+	                    req.setAttribute("isFollowing", isFollowing);
+	                }
+	                
+	                // 4. Lấy số lượt thích và số người đăng ký
+	                com.fpoly.oe.dao.FavoriteDAO favDAO = new com.fpoly.oe.dao.FavoriteDAO();
+	                long likeCount = favDAO.countByVideoId(id);
+	                req.setAttribute("likeCount", likeCount);
+	                
+	                if (v.getUser() != null) {
+	                    com.fpoly.oe.dao.FollowDAO followDAO = new com.fpoly.oe.dao.FollowDAO();
+	                    long followerCount = followDAO.countFollowers(v.getUser().getId());
+	                    req.setAttribute("followerCount", followerCount);
+	                }
+	                
+	                // 5. Lấy danh sách bình luận
+	                com.fpoly.oe.dao.CommentDAO commentDAO = new com.fpoly.oe.dao.CommentDAO();
+	                java.util.List<com.fpoly.oe.entities.Comment> comments = commentDAO.findByVideoId(id);
+	                req.setAttribute("comments", comments);
+	                
+	                // 6. Gửi Video này sang trang Chi tiết để hiển thị
 	                req.setAttribute("video", v);
 	                req.getRequestDispatcher("/views/user/detail.jsp").forward(req, resp);
 	                return;

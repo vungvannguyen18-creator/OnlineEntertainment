@@ -25,4 +25,13 @@ public class FavoriteDAO extends AbstractDAO <Favorite> {
                     .getResultList();
         }
     }
+    
+    public long countByVideoId(String videoId) {
+        String jpql = "SELECT count(f) FROM Favorite f WHERE f.video.id = :videoId";
+        try (var session = com.fpoly.oe.utils.JpaUtils.getEntityManager()) {
+            return session.createQuery(jpql, Long.class)
+                    .setParameter("videoId", videoId)
+                    .getSingleResult();
+        }
+    }
 }

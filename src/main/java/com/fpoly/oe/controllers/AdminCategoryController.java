@@ -31,16 +31,16 @@ public class AdminCategoryController extends HttpServlet {
                     Long id = Long.parseLong(idStr);
                     formCategory = dao.findById(id);
                     activeTab = "edition";
+                    req.setAttribute("isEdit", true);
                 } catch (NumberFormatException e) {
                     // Ignore or handle
                 }
             }
         }
         
-        List<Category> categories = dao.findAll();
+        loadPagination(req, dao);
         
         req.setAttribute("formCategory", formCategory);
-        req.setAttribute("categories", categories);
         req.setAttribute("activeTab", activeTab);
         
         req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
@@ -65,42 +65,93 @@ public class AdminCategoryController extends HttpServlet {
                 }
             }
             String name = req.getParameter("name");
-            if (!uri.contains("/delete") && (name == null || name.trim().isEmpty())) {
-                req.setAttribute("error", "Vui lòng nhập tên danh mục!");
-                req.setAttribute("activeTab", "edition");
-                req.setAttribute("formCategory", category);
-                req.setAttribute("categories", dao.findAll());
-                req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
-                return;
+            
+            if (!uri.contains("/delete")) {
+                if (uri.contains("/create") && category.getId() == null) {
+                    req.setAttribute("error", "Vui lòng nhập mã danh mục hợp lệ!");
+                    req.setAttribute("activeTab", "edition");
+                    req.setAttribute("formCategory", category);
+                    loadPagination(req, dao);
+                    req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
+                    return;
+                }
+                if (name == null || name.trim().isEmpty()) {
+                    req.setAttribute("error", "Vui lòng nhập tên danh mục!");
+                    req.setAttribute("activeTab", "edition");
+                    req.setAttribute("formCategory", category);
+                    loadPagination(req, dao);
+                    req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
+                    return;
+                }
             }
             category.setName(name);
             
+            String activeTab = "edition";
+            
             if (uri.contains("/create")) {
+                Category existing = dao.findById(category.getId());
+                if (existing != null) {
+                    req.setAttribute("error", "Mã danh mục này đã tồn tại! Vui lòng nhập mã khác.");
+                    req.setAttribute("activeTab", "edition");
+                    req.setAttribute("formCategory", category);
+                    loadPagination(req, dao);
+                    req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
+                    return;
+                }
                 dao.create(category);
                 req.setAttribute("message", "Thêm danh mục thành công!");
+                category = new Category();
+                activeTab = "list";
             } else if (uri.contains("/update")) {
                 dao.update(category);
                 req.setAttribute("message", "Cập nhật danh mục thành công!");
+                category = new Category();
+                activeTab = "list";
             } else if (uri.contains("/delete")) {
                 dao.delete(category.getId());
                 req.setAttribute("message", "Xóa danh mục thành công!");
-                category = new Category(); // Xóa xong form trống
+                category = new Category();
+                activeTab = "list";
             }
             
             req.setAttribute("formCategory", category);
-            req.setAttribute("activeTab", "edition");
+            req.setAttribute("activeTab", activeTab);
             
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("error", "Lỗi thao tác dữ liệu: " + e.getMessage());
+            String errorMsg = "Lỗi thao tác dữ liệu: " + e.getMessage();
+            if (uri.contains("/delete")) {
+                errorMsg = "Không thể xóa danh mục này vì đang có video liên kết!";
+            }
+            req.setAttribute("error", errorMsg);
             req.setAttribute("activeTab", "edition");
         }
         
-        List<Category> categories = dao.findAll();
-        req.setAttribute("categories", categories);
+        loadPagination(req, dao);
         // Làm mới bộ nhớ đệm danh mục toàn cục
-        req.getServletContext().setAttribute("globalCategories", categories);
+        req.getServletContext().setAttribute("globalCategories", dao.findAll());
         
         req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
+    }
+    
+    private void loadPagination(HttpServletRequest req, CategoryDAO dao) {
+        int page = 0;
+        String pageStr = req.getParameter("page");
+        if (pageStr != null) {
+            try {
+                page = Integer.parseInt(pageStr);
+            } catch (Exception e) {}
+        }
+        int pageSize = 10;
+        long totalCategories = dao.countAll();
+        int totalPages = (int) Math.ceil((double) totalCategories / pageSize);
+        if (page < 0) page = 0;
+        if (page >= totalPages && totalPages > 0) page = totalPages - 1;
+        
+        List<Category> categories = dao.findAll(page, pageSize);
+        req.setAttribute("categories", categories);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalCount", totalCategories);
     }
 }

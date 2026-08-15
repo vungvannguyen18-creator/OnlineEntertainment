@@ -4,20 +4,17 @@
 
 <jsp:include page="/views/layout/header.jsp" />
 
-<h3 class="mb-4 fw-bold" style="color: #0f0f0f; font-size: 20px;">
-    <i class="fa-solid fa-heart text-danger me-2"></i>Video Yêu Thích Của Bạn
-</h3>
+<h3 class="text-danger fw-bold mb-4 border-bottom border-warning pb-2"><i class="fa-solid fa-users"></i> KÊNH ĐANG THEO DÕI</h3>
 
 <c:choose>
     <c:when test="${empty videos}">
-        <div class="alert alert-light border-0 fw-bold text-center py-5">
-            <i class="fa-regular fa-heart fa-3x text-muted mb-3 d-block"></i>
-            Bạn chưa yêu thích video nào! <a href="${pageContext.request.contextPath}/home" class="text-decoration-none text-primary">Về trang chủ khám phá thêm</a>.
+        <div class="alert alert-warning fw-bold text-center">
+            Các kênh bạn theo dõi chưa có video nào, hoặc bạn chưa theo dõi ai! <a href="${pageContext.request.contextPath}/home" class="alert-link">Về trang chủ khám phá thêm</a>.
         </div>
     </c:when>
     <c:otherwise>
         <jsp:useBean id="now" class="java.util.Date" />
-        <div class="row g-4 mb-5">
+        <div class="row g-4">
             <c:forEach items="${videos}" var="v">
                 <div class="col-md-4">
                     <div class="card h-100 border-0 bg-transparent">
@@ -42,7 +39,7 @@
                                     <i class="fa-solid fa-user-circle fa-2x text-secondary mt-1"></i>
                                 </a>
                             </div>
-                            <div class="flex-grow-1">
+                            <div>
                                 <h5 class="card-title m-0 fw-bold text-truncate" style="font-size: 16px; color: #0f0f0f; max-width: 250px;">
                                     <a href="${pageContext.request.contextPath}/video?id=${v.id}" class="text-decoration-none text-dark">${v.title}</a>
                                 </h5>
@@ -66,16 +63,6 @@
                                             </c:choose>
                                         </c:when>
                                     </c:choose>
-                                </div>
-                                
-                                <!-- Actions -->
-                                <div class="mt-2 d-flex gap-2">
-                                    <a href="${pageContext.request.contextPath}/like?id=${v.id}" class="btn btn-sm rounded-pill fw-bold" style="background-color: #f2f2f2; color: #0f0f0f; border: none; font-size: 13px;">
-                                        Bỏ Thích
-                                    </a>
-                                    <a href="${pageContext.request.contextPath}/share?id=${v.id}" class="btn btn-sm rounded-pill fw-bold" style="background-color: #f2f2f2; color: #0f0f0f; border: none; font-size: 13px;">
-                                        Chia Sẻ
-                                    </a>
                                 </div>
                             </div>
                         </div>

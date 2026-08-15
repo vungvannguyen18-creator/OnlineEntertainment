@@ -1,7 +1,7 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
-<jsp:include page="/views/layout/header.jsp" />
+<jsp:include page="/views/layout/creator_header.jsp" />
 
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -11,10 +11,10 @@
         </a>
     </div>
 
-    <div class="card shadow-sm border-warning">
+    <div class="card shadow-sm border-0">
         <div class="card-body p-0">
             <table class="table table-bordered table-striped m-0">
-                <thead style="background-color: #fffaf0;">
+                <thead class="bg-light">
                     <tr>
                         <th class="text-center">Mã Video</th>
                         <th>Hình Ảnh</th>
@@ -80,4 +80,4 @@
     </div>
 </div>
 
-<jsp:include page="/views/layout/footer.jsp" />
+<jsp:include page="/views/layout/creator_footer.jsp" />

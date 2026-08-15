@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -13,20 +13,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { background-color: #f4f6f9; color: #333; font-family: 'Inter', sans-serif; }
-        .navbar-custom { 
-            background: linear-gradient(to bottom, #ffdb4d, #ffae00) !important; 
-            border-radius: 8px; 
-            box-shadow: 2px 4px 8px rgba(0,0,0,0.2); 
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body { 
+            background-color: #f9f9f9; 
+            color: #0f0f0f; 
+            font-family: 'Roboto', Arial, sans-serif; 
+            -webkit-font-smoothing: antialiased;
         }
-        .navbar-brand { color: #d32f2f !important; font-weight: 800; text-shadow: 1px 1px 2px rgba(255,255,255,0.5); }
-        .nav-link.custom-link { color: #1976d2 !important; font-weight: 700; transition: color 0.2s; }
-        .nav-link.custom-link:hover { color: #0d47a1 !important; }
-        .card { border: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); background-color: #fff; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-        .card-title { color: #2c3e50; font-weight: 700; }
-        .text-muted-custom { color: #7f8c8d; }
-        .btn-custom { border-radius: 8px; font-weight: 600; }
+        
+        /* YouTube-like Navbar */
+        .navbar-custom { 
+            background-color: #ffffff !important; 
+            padding: 8px 16px;
+            margin-bottom: 24px !important;
+            margin-top: 0;
+            border-radius: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand { 
+            color: #0f0f0f !important; 
+            font-weight: 700; 
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 20px;
+        }
+        .navbar-brand::before {
+            content: "\f167";
+            font-family: "Font Awesome 6 Brands";
+            color: #ff0000;
+            font-size: 24px;
+        }
+        
+        .nav-link.custom-link { 
+            color: #0f0f0f !important; 
+            font-weight: 500; 
+            font-size: 14px;
+            padding: 8px 15px !important;
+            border-radius: 18px;
+            background-color: #f2f2f2;
+            transition: background-color 0.2s;
+        }
+        .nav-link.custom-link:hover { 
+            background-color: #e5e5e5;
+        }
+        
+        /* YouTube-like Cards */
+        .card { 
+            border: none !important; 
+            background-color: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        .card:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .card-img-top {
+            border-radius: 12px !important;
+            transition: border-radius 0.2s ease;
+        }
+        .card:hover .card-img-top {
+            border-radius: 0 !important;
+            transform: none !important;
+        }
+        
+        .card-title { color: #0f0f0f; font-weight: 500; line-height: 1.4; font-size: 16px; margin-bottom: 4px !important; }
+        .text-muted-custom { color: #606060; }
+        
+        /* Utilities & Buttons */
+        .btn { 
+            border-radius: 18px !important; 
+            font-weight: 500; 
+            text-transform: none;
+            font-size: 14px;
+            padding: 6px 16px;
+            box-shadow: none !important;
+        }
+        .btn:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .btn-dark {
+            background-color: #0f0f0f !important;
+            color: #fff !important;
+            border: none;
+        }
+        .btn-light {
+            background-color: #f2f2f2 !important;
+            color: #0f0f0f !important;
+            border: none !important;
+        }
+        .btn-light:hover { background-color: #e5e5e5 !important; }
+        
+        /* Modern Inputs */
+        .form-control {
+            border-radius: 18px;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            box-shadow: inset 0 1px 2px #eee;
+        }
+        .form-control:focus {
+            border-color: #1c62b9;
+            box-shadow: inset 0 1px 2px #eee;
+        }
+        
+        /* Soft Dropdown */
+        .dropdown-menu {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 32px 0 rgba(0,0,0,0.1);
+            padding: 8px 0;
+            animation: none;
+        }
+        .dropdown-item {
+            padding: 8px 16px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #0f0f0f;
+            border-radius: 0;
+        }
+        .dropdown-item:hover {
+            background-color: #f2f2f2;
+            color: #0f0f0f;
+            transform: none;
+        }
+        
+        /* Override generic inline styles for index.jsp */
+        .custom-image-wrapper {
+            overflow: hidden;
+            border-radius: 12px;
+            padding: 0 !important;
+        }
+        .card-body {
+            padding: 12px 0 0 0 !important;
+            background-color: transparent !important;
+        }
+        .card-footer {
+            padding: 4px 0 0 0 !important;
+            background-color: transparent !important;
+        }
     </style>
 </head>
 <body>
@@ -42,8 +171,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto ms-4 gap-3">
+    <div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="navbarNav">
+      <ul class="navbar-nav ms-4 gap-3">
         <!-- CHỈ HIỂN THỊ KHI ĐÃ ĐĂNG NHẬP -->
         <c:if test="${not empty sessionScope.user}">
             <li class="nav-item">
@@ -51,8 +180,23 @@
                     <i class="fas fa-heart me-1 text-danger"></i> VIDEO YÊU THÍCH
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link custom-link" href="${pageContext.request.contextPath}/following">
+                    <i class="fa-solid fa-users text-primary me-1"></i> KÊNH ĐĂNG KÝ
+                </a>
+            </li>
         </c:if>
       </ul>
+      
+      <!-- YouTube-style Search Bar -->
+      <form action="${pageContext.request.contextPath}/home" method="GET" class="d-flex mx-auto" style="max-width: 600px; width: 100%; padding: 0 20px;">
+          <div class="input-group" style="height: 40px;">
+              <input type="text" name="search" class="form-control shadow-none" placeholder="Tìm kiếm" value="${searchKeyword != null ? searchKeyword : ''}" style="border-radius: 20px 0 0 20px; border: 1px solid #ccc; font-size: 16px; padding-left: 16px;">
+              <button class="btn btn-outline-secondary" type="submit" style="border-radius: 0 20px 20px 0; border: 1px solid #ccc; border-left: none; background-color: #f8f8f8; padding: 0 20px; box-shadow: none !important;">
+                  <i class="fa-solid fa-magnifying-glass" style="color: #0f0f0f;"></i>
+              </button>
+          </div>
+      </form>
       <ul class="navbar-nav">
         <!-- TÀI KHOẢN Dropdown -->
         <li class="nav-item dropdown">

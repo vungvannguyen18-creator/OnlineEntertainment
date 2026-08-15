@@ -1,0 +1,13 @@
+com\fpoly\oe\controllers\AdminChannelRequestController.class
+com\fpoly\oe\controllers\AdminUserController.class
+com\fpoly\oe\beans\VideoFormBean.class
+com\fpoly\oe\controllers\AdminCategoryController.class
+com\fpoly\oe\controllers\AdminVideoController.class
+com\fpoly\oe\entities\User.class
+com\fpoly\oe\entities\Video.class
+com\fpoly\oe\entities\Category.class
+com\fpoly\oe\controllers\ChannelRequestController.class
+com\fpoly\oe\dao\VideoDAO.class
+com\fpoly\oe\controllers\AdminReportController.class
+com\fpoly\oe\controllers\ChangePasswordController.class
+com\fpoly\oe\dao\AbstractDAO.class

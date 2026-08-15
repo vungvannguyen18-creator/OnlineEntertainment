@@ -18,6 +18,13 @@ public class LoginController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        // Kiểm tra nếu đã đăng nhập thì không cho vào trang login nữa
+        if (session.getAttribute("user") != null) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
         // Đọc Cookie để tự động điền form (Remember Me)
         jakarta.servlet.http.Cookie[] cookies = req.getCookies();
         if (cookies != null) {

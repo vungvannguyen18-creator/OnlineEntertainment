@@ -19,7 +19,27 @@ public class VideoService {
     }
 
     public void createVideoFromForm(VideoFormBean bean, String uploadPath, User user) throws Exception {
-        // 1. Xử lý lưu ảnh vào project
+        // 1. Xử lý lưu video vào project
+        Part videoPart = bean.getVideoPart();
+        if (videoPart != null && videoPart.getSize() > 0) {
+            String originalFileName = Paths.get(videoPart.getSubmittedFileName()).getFileName().toString();
+            String ext = "";
+            int i = originalFileName.lastIndexOf('.');
+            if (i >= 0) ext = originalFileName.substring(i);
+            
+            // Tạo ID duy nhất cho video (vì ID giới hạn 50 ký tự, UUID 36 + ext là vừa)
+            String newVideoId = java.util.UUID.randomUUID().toString().substring(0, 8) + ext;
+            if (ext.isEmpty()) newVideoId += ".mp4"; // Default
+            
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            
+            String savePath = uploadPath + File.separator + newVideoId;
+            videoPart.write(savePath);
+            bean.setId(newVideoId);
+        }
+
+        // 2. Xử lý lưu ảnh poster vào project
         Part filePart = bean.getPosterPart();
         String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
@@ -32,7 +52,7 @@ public class VideoService {
             filePart.write(savePath);
         }
 
-        // 2. Chuyển đổi dữ liệu và insert vào DB thông qua DAO
+        // 3. Chuyển đổi dữ liệu và insert vào DB thông qua DAO
         Video video = new Video();
         video.setId(bean.getId());
         video.setTitle(bean.getTitle());
@@ -46,7 +66,7 @@ public class VideoService {
             video.setCategory(cat);
         }
         
-        // Nếu có upload ảnh thì lưu tên ảnh, nếu không thì lấy ID youtube làm mặc định (hoặc giữ null)
+        // Nếu có upload ảnh thì lưu tên ảnh, nếu không thì dùng chung ID video
         if (fileName != null) {
             video.setPoster(fileName);
         } else {
@@ -62,15 +82,24 @@ public class VideoService {
             throw new Exception("Không tìm thấy video hoặc bạn không có quyền sửa!");
         }
 
+        // Xử lý upload ảnh poster mới
         Part filePart = bean.getPosterPart();
-        String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdir();
             String savePath = uploadPath + File.separator + fileName;
             filePart.write(savePath);
             video.setPoster(fileName); // Chỉ cập nhật poster nếu có upload file mới
+        }
+
+        // Xử lý upload video mới (ghi đè file cũ cùng ID)
+        Part videoPart = bean.getVideoPart();
+        if (videoPart != null && videoPart.getSize() > 0) {
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            String savePath = uploadPath + File.separator + video.getId();
+            videoPart.write(savePath);
         }
 
         video.setTitle(bean.getTitle());

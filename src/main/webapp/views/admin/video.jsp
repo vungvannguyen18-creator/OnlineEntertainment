@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
@@ -33,15 +33,15 @@
       
       <div class="card border border-warning shadow-sm mb-4">
           <div class="card-body" style="background-color: #fffaf0;">
-              <form action="${pageContext.request.contextPath}/admin/video" method="POST">
+              <form action="${pageContext.request.contextPath}/admin/video" method="POST" enctype="multipart/form-data">
                   
                   <div class="row">
                       <!-- Cột Trái: POSTER -->
                       <div class="col-md-4 text-center">
                           <div class="border border-secondary bg-white d-flex align-items-center justify-content-center mb-3" style="height: 200px;">
                               <c:choose>
-                                  <c:when test="${not empty formVideo.id}">
-                                      <img src="https://img.youtube.com/vi/${formVideo.id}/maxresdefault.jpg" class="img-fluid" style="max-height: 100%;" alt="POSTER">
+                                  <c:when test="${not empty formVideo.id && not empty formVideo.poster}">
+                                      <img src="${pageContext.request.contextPath}/uploads/${formVideo.poster}" class="img-fluid" style="max-height: 100%;" alt="POSTER" onerror="this.src='https://img.youtube.com/vi/${formVideo.id}/maxresdefault.jpg'">
                                   </c:when>
                                   <c:otherwise>
                                       <span class="fw-bold text-muted fs-4">POSTER</span>
@@ -53,12 +53,20 @@
                       <!-- Cột Phải: Thông tin -->
                       <div class="col-md-8">
                           <div class="mb-3">
-                              <label class="form-label fw-bold">MÃ YOUTUBE?</label>
-                              <input type="text" class="form-control border-warning" name="id" value="${formVideo.id}" <c:if test="${not empty formVideo.id}">readonly</c:if>>
+                              <label class="form-label fw-bold">VIDEO FILE <c:if test="${empty formVideo.id}">(*)</c:if></label>
+                              <input type="file" class="form-control border-warning" name="video" accept="video/*" ${empty formVideo.id ? 'required' : ''}>
+                              <c:if test="${not empty formVideo.id}">
+                                  <input type="hidden" name="id" value="${formVideo.id}">
+                                  <small class="text-muted">Đang dùng video cũ. Chọn file mới để thay thế.</small>
+                              </c:if>
                           </div>
                           <div class="mb-3">
                               <label class="form-label fw-bold">TIÊU ĐỀ VIDEO?</label>
-                              <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}">
+                              <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}" required>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label fw-bold">ẢNH POSTER <c:if test="${empty formVideo.id}">(*)</c:if></label>
+                              <input type="file" class="form-control border-warning" name="poster" accept="image/*" ${empty formVideo.id ? 'required' : ''}>
                           </div>
                           <div class="mb-3">
                               <label class="form-label fw-bold">LƯỢT XEM?</label>

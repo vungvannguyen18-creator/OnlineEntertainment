@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
@@ -38,7 +38,7 @@
                   <div class="row">
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">TÊN ĐĂNG NHẬP?</label>
-                          <input type="text" class="form-control border-warning" name="id" value="${formUser.id}" <c:if test="${not empty formUser.id}">readonly</c:if>>
+                          <input type="text" class="form-control border-warning ${isEdit ? 'bg-light' : ''}" name="id" value="${formUser.id}" ${isEdit ? 'readonly' : ''}>
                       </div>
                       <div class="col-md-6 mb-4">
                           <label class="form-label fw-bold">MẬT KHẨU?</label>
@@ -75,9 +75,9 @@
                   <!-- Nút bấm -->
                   <div class="row border-top border-warning pt-3 mt-2">
                       <div class="col-12 d-flex justify-content-end gap-2">
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/create" class="btn btn-secondary fw-bold" ${not empty formUser.id ? 'disabled' : ''}>Thêm mới</button>
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/update" class="btn btn-secondary fw-bold" ${empty formUser.id ? 'disabled' : ''}>Cập nhật</button>
-                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/delete" class="btn btn-secondary fw-bold" ${empty formUser.id ? 'disabled' : ''} onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?');">Xóa</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/create" class="btn btn-secondary fw-bold" ${isEdit ? 'disabled' : ''}>Thêm mới</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/update" class="btn btn-secondary fw-bold" ${not isEdit ? 'disabled' : ''}>Cập nhật</button>
+                          <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/delete" class="btn btn-secondary fw-bold" ${not isEdit ? 'disabled' : ''} onclick="return confirm('Bạn có chắc muốn xóa tài khoản này?');">Xóa</button>
                           <a href="${pageContext.request.contextPath}/admin/user" class="btn btn-secondary fw-bold">Làm mới</a>
                       </div>
                   </div>
@@ -130,12 +130,12 @@
               </table>
           </div>
           <div class="card-footer bg-light d-flex justify-content-between align-items-center border-warning">
-              <span class="fw-bold">${users.size()} tài khoản</span>
+              <span class="fw-bold">Đang hiển thị ${users.size()} tài khoản (Trang ${currentPage + 1}/${totalPages}) - Tổng: ${totalCount}</span>
               <div class="btn-group">
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">|&lt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&lt;&lt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&gt;&gt;</button>
-                  <button type="button" class="btn btn-secondary btn-sm fw-bold">&gt;|</button>
+                  <a href="${pageContext.request.contextPath}/admin/user?page=0" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">|&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/user?page=${currentPage - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == 0 ? 'disabled' : ''}">&lt;&lt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/user?page=${currentPage + 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;&gt;</a>
+                  <a href="${pageContext.request.contextPath}/admin/user?page=${totalPages - 1}" class="btn btn-secondary btn-sm fw-bold ${currentPage == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">&gt;|</a>
               </div>
           </div>
       </div>
