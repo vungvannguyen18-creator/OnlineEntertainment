@@ -15,9 +15,9 @@ import com.fpoly.oe.beans.VideoFormBean;
 import com.fpoly.oe.services.VideoService;
 
 @WebServlet({"/channel/video-form", "/channel/video-form/edit", "/channel/video-form/delete"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
-                 maxFileSize = 1024 * 1024 * 10,       // 10MB
-                 maxRequestSize = 1024 * 1024 * 50)    // 50MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,  
+                 maxFileSize = 1024 * 1024 * 10,       
+                 maxRequestSize = 1024 * 1024 * 50)    
 public class ChannelVideoFormController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
@@ -27,7 +27,6 @@ public class ChannelVideoFormController extends HttpServlet {
         this.videoService = new VideoService();
     }
 
-    // Danh sách danh mục từ DB
     private List<com.fpoly.oe.entities.Category> getCategoriesFromDB() {
         return new com.fpoly.oe.dao.CategoryDAO().findAll();
     }
@@ -68,7 +67,12 @@ public class ChannelVideoFormController extends HttpServlet {
             
             if (uri.contains("/delete")) {
                 String videoId = req.getParameter("id");
-                videoService.deleteVideo(videoId, user);
+                try {
+                    videoService.deleteVideo(videoId, user);
+                    req.getSession().setAttribute("message", "Đã xóa video thành công!");
+                } catch (Exception ex) {
+                    req.getSession().setAttribute("error", "Không thể xóa video này vì đang có dữ liệu liên quan. Vui lòng cập nhật trạng thái sang Riêng tư thay vì xóa!");
+                }
                 resp.sendRedirect(req.getContextPath() + "/channel/videos");
                 return;
             }
@@ -76,7 +80,6 @@ public class ChannelVideoFormController extends HttpServlet {
             req.setAttribute("categories", getCategoriesFromDB());
             VideoFormBean bean = new VideoFormBean();
             
-            // Chuyển đổi dữ liệu từ Form qua Bean
             bean.setId(req.getParameter("id"));
             bean.setTitle(req.getParameter("title"));
             bean.setDescription(req.getParameter("description"));
@@ -90,7 +93,6 @@ public class ChannelVideoFormController extends HttpServlet {
             String viewsStr = req.getParameter("views");
             bean.setViews((viewsStr != null && !viewsStr.isEmpty()) ? Integer.parseInt(viewsStr) : 0);
             
-            // Bean kiểm tra lỗi
             boolean isEdit = uri.contains("/edit");
             String error = bean.validate(isEdit);
             if (error != null) {
@@ -118,3 +120,4 @@ public class ChannelVideoFormController extends HttpServlet {
         }
     }
 }
+

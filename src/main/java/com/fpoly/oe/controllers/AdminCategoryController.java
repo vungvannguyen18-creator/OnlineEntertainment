@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +22,7 @@ public class AdminCategoryController extends HttpServlet {
         CategoryDAO dao = new CategoryDAO();
         Category formCategory = new Category();
         
-        String activeTab = "list"; // Mặc định hiển thị danh sách
+        String activeTab = "list"; 
         
         if (uri.contains("/edit")) {
             String idStr = req.getParameter("id");
@@ -33,7 +33,6 @@ public class AdminCategoryController extends HttpServlet {
                     activeTab = "edition";
                     req.setAttribute("isEdit", true);
                 } catch (NumberFormatException e) {
-                    // Ignore or handle
                 }
             }
         }
@@ -61,22 +60,27 @@ public class AdminCategoryController extends HttpServlet {
                 try {
                     category.setId(Long.parseLong(idStr));
                 } catch (NumberFormatException e) {
-                    // Ignore for create
                 }
             }
             String name = req.getParameter("name");
             
             if (!uri.contains("/delete")) {
-                if (uri.contains("/create") && category.getId() == null) {
-                    req.setAttribute("error", "Vui lòng nhập mã danh mục hợp lệ!");
-                    req.setAttribute("activeTab", "edition");
-                    req.setAttribute("formCategory", category);
-                    loadPagination(req, dao);
-                    req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
-                    return;
+                String errorMsg = null;
+                
+                if (uri.contains("/create")) {
+                    if (idStr == null || idStr.trim().isEmpty()) {
+                        errorMsg = "Vui lòng nhập mã danh mục!";
+                    } else if (category.getId() == null) {
+                        errorMsg = "Mã danh mục phải là một con số!";
+                    }
                 }
-                if (name == null || name.trim().isEmpty()) {
-                    req.setAttribute("error", "Vui lòng nhập tên danh mục!");
+                
+                if (errorMsg == null && (name == null || name.trim().isEmpty())) {
+                    errorMsg = "Vui lòng nhập tên danh mục!";
+                }
+
+                if (errorMsg != null) {
+                    req.setAttribute("error", errorMsg);
                     req.setAttribute("activeTab", "edition");
                     req.setAttribute("formCategory", category);
                     loadPagination(req, dao);
@@ -128,7 +132,6 @@ public class AdminCategoryController extends HttpServlet {
         }
         
         loadPagination(req, dao);
-        // Làm mới bộ nhớ đệm danh mục toàn cục
         req.getServletContext().setAttribute("globalCategories", dao.findAll());
         
         req.getRequestDispatcher("/views/admin/category.jsp").forward(req, resp);
@@ -155,3 +158,4 @@ public class AdminCategoryController extends HttpServlet {
         req.setAttribute("totalCount", totalCategories);
     }
 }
+

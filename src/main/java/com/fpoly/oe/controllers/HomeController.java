@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,15 +54,13 @@ public class HomeController  extends HttpServlet {
             totalVideos = dao.countAllVideos();
         }
         
-        // Tính tổng số trang
         int totalPages = (int) Math.ceil((double) totalVideos / 6);
         
-        // Đẩy dữ liệu sang JSP
         req.setAttribute("videos", videos);
         req.setAttribute("currentPage", page);
         req.setAttribute("totalPages", totalPages);
         
-        // Chuyển hướng tới trang giao diện
         req.getRequestDispatcher("/views/user/index.jsp").forward(req, resp);
     }
 }
+

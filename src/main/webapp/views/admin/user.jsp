@@ -3,7 +3,7 @@
 
 <jsp:include page="/views/layout/admin_header.jsp" />
 
-<!-- Tabs Giao diện -->
+
 <ul class="nav nav-tabs mb-4" id="userTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link ${activeTab == 'userEdition' || empty activeTab ? 'active' : ''}" 
@@ -21,7 +21,7 @@
 
 <div class="tab-content" id="userTabsContent">
   
-  <!-- TAB: USER EDITION -->
+  
   <div class="tab-pane fade ${activeTab == 'userEdition' || empty activeTab ? 'show active' : ''}" id="edition" role="tabpanel">
       
       <c:if test="${not empty message}">
@@ -57,7 +57,7 @@
                       </div>
                   </div>
                   
-                  <!-- ROLE -->
+                  
                   <div class="row">
                       <div class="col-12 mb-3">
                           <label class="form-label fw-bold me-3">VAI TRÒ?</label>
@@ -72,7 +72,7 @@
                       </div>
                   </div>
                   
-                  <!-- Nút bấm -->
+                  
                   <div class="row border-top border-warning pt-3 mt-2">
                       <div class="col-12 d-flex justify-content-end gap-2">
                           <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/create" class="btn btn-secondary fw-bold" ${isEdit ? 'disabled' : ''}>Thêm mới</button>
@@ -86,7 +86,7 @@
       </div>
   </div>
   
-  <!-- TAB: USER LIST -->
+  
   <div class="tab-pane fade ${activeTab == 'userList' ? 'show active' : ''}" id="list" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body p-0">
@@ -116,7 +116,7 @@
                                       <input type="hidden" name="id" value="${u.id}">
                                       <c:choose>
                                           <c:when test="${u.active}">
-                                              <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/lock" class="btn btn-sm btn-outline-danger" onclick="return confirm('Khóa người dùng này?');">Khóa</button>
+                                              <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/lock" class="btn btn-sm btn-outline-danger" ${u.admin ? 'disabled' : ''} onclick="return confirm('Khóa người dùng này?');">Khóa</button>
                                           </c:when>
                                           <c:otherwise>
                                               <button type="submit" formaction="${pageContext.request.contextPath}/admin/user/unlock" class="btn btn-sm btn-outline-success" onclick="return confirm('Mở khóa người dùng này?');">Mở khóa</button>
@@ -144,3 +144,4 @@
 </div>
 
 <jsp:include page="/views/layout/admin_footer.jsp" />
+

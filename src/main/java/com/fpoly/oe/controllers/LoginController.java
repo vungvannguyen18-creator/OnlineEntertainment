@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -19,13 +19,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        // Kiểm tra nếu đã đăng nhập thì không cho vào trang login nữa
         if (session.getAttribute("user") != null) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
 
-        // Đọc Cookie để tự động điền form (Remember Me)
         jakarta.servlet.http.Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (jakarta.servlet.http.Cookie cookie : cookies) {
@@ -58,20 +56,16 @@ public class LoginController extends HttpServlet {
             User user = dao.findById(id);
             
             if (user != null && user.getPassword().equals(password)) {
-                // Kiểm tra xem tài khoản có bị khóa không
                 if (user.getActive() != null && !user.getActive()) {
                     req.setAttribute("error", "Tài khoản của bạn đã bị khóa, không thể đăng nhập!");
                     req.getRequestDispatcher("/views/user/login.jsp").forward(req, resp);
                     return;
                 }
                 
-                // Đăng nhập thành công -> Lưu vào Session
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 
-                // Xử lý Ghi nhớ tài khoản (Remember me)
                 if (remember != null) {
-                    // Nếu tick -> Lưu Cookie 30 ngày
                     jakarta.servlet.http.Cookie cookieId = new jakarta.servlet.http.Cookie("saved_id", id);
                     jakarta.servlet.http.Cookie cookiePwd = new jakarta.servlet.http.Cookie("saved_pwd", password);
                     cookieId.setMaxAge(30 * 24 * 60 * 60);
@@ -79,7 +73,6 @@ public class LoginController extends HttpServlet {
                     resp.addCookie(cookieId);
                     resp.addCookie(cookiePwd);
                 } else {
-                    // Nếu không tick -> Xóa Cookie bằng cách set MaxAge = 0
                     jakarta.servlet.http.Cookie cookieId = new jakarta.servlet.http.Cookie("saved_id", "");
                     jakarta.servlet.http.Cookie cookiePwd = new jakarta.servlet.http.Cookie("saved_pwd", "");
                     cookieId.setMaxAge(0);
@@ -106,3 +99,4 @@ public class LoginController extends HttpServlet {
         }
     }
 }
+

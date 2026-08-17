@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,3 +33,4 @@ public class FollowingPageController extends HttpServlet {
         req.getRequestDispatcher("/views/user/following.jsp").forward(req, resp);
     }
 }
+

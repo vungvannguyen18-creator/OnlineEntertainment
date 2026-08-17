@@ -1,4 +1,4 @@
-package com.fpoly.oe.dao;
+﻿package com.fpoly.oe.dao;
 
 import java.util.List;
 import com.fpoly.oe.entities.Comment;
@@ -28,12 +28,10 @@ public class CommentDAO extends AbstractDAO<Comment> {
         EntityManager em = JpaUtils.getEntityManager();
         try {
             em.getTransaction().begin();
-            // Xóa các phản hồi trước
             Query query = em.createQuery("DELETE FROM Comment c WHERE c.parentId = :commentId");
             query.setParameter("commentId", commentId);
             query.executeUpdate();
             
-            // Xóa bình luận gốc
             Comment c = em.find(Comment.class, commentId);
             if (c != null) {
                 em.remove(c);
@@ -47,3 +45,4 @@ public class CommentDAO extends AbstractDAO<Comment> {
         }
     }
 }
+

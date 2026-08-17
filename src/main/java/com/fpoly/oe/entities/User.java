@@ -1,4 +1,4 @@
-package com.fpoly.oe.entities;
+﻿package com.fpoly.oe.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +28,6 @@ public class User {
 	@Column(name = "Active")
 	private Boolean active = true;
 
-    // Getters and Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     
@@ -47,3 +46,4 @@ public class User {
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
 }
+

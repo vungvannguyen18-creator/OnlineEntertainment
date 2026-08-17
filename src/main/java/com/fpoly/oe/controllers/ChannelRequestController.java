@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.Date;
@@ -32,21 +32,19 @@ public class ChannelRequestController extends HttpServlet {
         ChannelRequest existing = dao.findByUserId(user.getId());
         
         if (existing != null) {
-            // Nếu đã từng bị từ chối, cập nhật lại trạng thái thành PENDING
             if ("REJECTED".equals(existing.getStatus())) {
                 existing.setStatus("PENDING");
                 existing.setRequestDate(new Date());
                 dao.update(existing);
             }
         } else {
-            // Tạo mới yêu cầu
             ChannelRequest newRequest = new ChannelRequest();
             newRequest.setUser(user);
             newRequest.setStatus("PENDING");
             dao.create(newRequest);
         }
         
-        // Quay về trang edit-profile để xem kết quả
         resp.sendRedirect(req.getContextPath() + "/edit-profile");
     }
 }
+

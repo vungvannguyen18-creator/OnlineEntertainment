@@ -3,7 +3,7 @@
 
 <jsp:include page="/views/layout/admin_header.jsp" />
 
-<!-- Tabs Giao diện -->
+
 <ul class="nav nav-tabs mb-4" id="videoTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link ${activeTab == 'videoEdition' || empty activeTab ? 'active' : ''}" 
@@ -21,7 +21,7 @@
 
 <div class="tab-content" id="videoTabsContent">
   
-  <!-- TAB: VIDEO EDITION -->
+  
   <div class="tab-pane fade ${activeTab == 'videoEdition' || empty activeTab ? 'show active' : ''}" id="edition" role="tabpanel">
       
       <c:if test="${not empty message}">
@@ -36,7 +36,7 @@
               <form action="${pageContext.request.contextPath}/admin/video" method="POST" enctype="multipart/form-data">
                   
                   <div class="row">
-                      <!-- Cột Trái: POSTER -->
+                      
                       <div class="col-md-4 text-center">
                           <div class="border border-secondary bg-white d-flex align-items-center justify-content-center mb-3" style="height: 200px;">
                               <c:choose>
@@ -50,11 +50,11 @@
                           </div>
                       </div>
                       
-                      <!-- Cột Phải: Thông tin -->
+                      
                       <div class="col-md-8">
                           <div class="mb-3">
                               <label class="form-label fw-bold">VIDEO FILE <c:if test="${empty formVideo.id}">(*)</c:if></label>
-                              <input type="file" class="form-control border-warning" name="video" accept="video/*" ${empty formVideo.id ? 'required' : ''}>
+                              <input type="file" class="form-control border-warning" name="video" accept="video/*">
                               <c:if test="${not empty formVideo.id}">
                                   <input type="hidden" name="id" value="${formVideo.id}">
                                   <small class="text-muted">Đang dùng video cũ. Chọn file mới để thay thế.</small>
@@ -62,11 +62,11 @@
                           </div>
                           <div class="mb-3">
                               <label class="form-label fw-bold">TIÊU ĐỀ VIDEO?</label>
-                              <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}" required>
+                              <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}">
                           </div>
                           <div class="mb-3">
                               <label class="form-label fw-bold">ẢNH POSTER <c:if test="${empty formVideo.id}">(*)</c:if></label>
-                              <input type="file" class="form-control border-warning" name="poster" accept="image/*" ${empty formVideo.id ? 'required' : ''}>
+                              <input type="file" class="form-control border-warning" name="poster" accept="image/*">
                           </div>
                           <div class="mb-3">
                               <label class="form-label fw-bold">LƯỢT XEM?</label>
@@ -85,7 +85,7 @@
                       </div>
                   </div>
                   
-                  <!-- Mô tả -->
+                  
                   <div class="row mt-3">
                       <div class="col-12">
                           <label class="form-label fw-bold">MÔ TẢ NGẮN?</label>
@@ -93,7 +93,7 @@
                       </div>
                   </div>
                   
-                  <!-- Nút bấm -->
+                  
                   <div class="row mt-4">
                       <div class="col-12 d-flex justify-content-end gap-2">
                           <button type="submit" formaction="${pageContext.request.contextPath}/admin/video/create" class="btn btn-secondary fw-bold" ${not empty formVideo.id ? 'disabled' : ''}>Thêm mới</button>
@@ -107,14 +107,14 @@
       </div>
   </div>
   
-  <!-- TAB: VIDEO LIST -->
+  
   <div class="tab-pane fade ${activeTab == 'videoList' ? 'show active' : ''}" id="list" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body p-0">
               <table class="table table-bordered table-striped m-0">
                   <thead style="background-color: #fffaf0;">
                       <tr>
-                          <th>Mã Youtube</th>
+                          <th>Mã Video</th>
                           <th>Tiêu đề</th>
                           <th>Lượt xem</th>
                           <th>Trạng thái</th>
@@ -162,3 +162,4 @@
 </div>
 
 <jsp:include page="/views/layout/admin_footer.jsp" />
+

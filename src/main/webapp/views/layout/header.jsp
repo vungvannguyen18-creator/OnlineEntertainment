@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -7,9 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Entertainment</title>
-    <!-- Bootstrap 5 CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome (Icons) -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -160,10 +160,10 @@
 </head>
 <body>
 
-<!-- Thanh Menu (Navbar) -->
+
 <nav class="navbar navbar-expand-lg navbar-light mb-4 navbar-custom">
   <div class="container">
-    <!-- Tên Logo -->
+    
     <a class="navbar-brand fs-4" href="${pageContext.request.contextPath}/home">
         ONLINE ENTERTAINMENT
     </a>
@@ -173,7 +173,7 @@
     
     <div class="collapse navbar-collapse d-flex justify-content-between align-items-center" id="navbarNav">
       <ul class="navbar-nav ms-4 gap-3">
-        <!-- CHỈ HIỂN THỊ KHI ĐÃ ĐĂNG NHẬP -->
+        
         <c:if test="${not empty sessionScope.user}">
             <li class="nav-item">
                 <a class="nav-link custom-link" href="${pageContext.request.contextPath}/favorites">
@@ -188,7 +188,7 @@
         </c:if>
       </ul>
       
-      <!-- YouTube-style Search Bar -->
+      
       <form action="${pageContext.request.contextPath}/home" method="GET" class="d-flex mx-auto" style="max-width: 600px; width: 100%; padding: 0 20px;">
           <div class="input-group" style="height: 40px;">
               <input type="text" name="search" class="form-control shadow-none" placeholder="Tìm kiếm" value="${searchKeyword != null ? searchKeyword : ''}" style="border-radius: 20px 0 0 20px; border: 1px solid #ccc; font-size: 16px; padding-left: 16px;">
@@ -198,16 +198,16 @@
           </div>
       </form>
       <ul class="navbar-nav">
-        <!-- TÀI KHOẢN Dropdown -->
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle custom-link" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
             TÀI KHOẢN
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <!-- JSTL Kiểm tra Session (Biến user) -->
+            
             <c:choose>
               <c:when test="${not empty sessionScope.user}">
-                  <!-- Nếu ĐÃ đăng nhập -->
+                  
                   <li>
                       <span class="dropdown-item fw-bold text-success text-wrap" style="cursor: default; width: 250px;">
                           Xin chào, ${sessionScope.user.fullname != null ? sessionScope.user.fullname : (sessionScope.user.admin ? 'Quản trị viên' : 'Bạn')}
@@ -224,7 +224,7 @@
                   <li><a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
               </c:when>
               <c:otherwise>
-                  <!-- Nếu CHƯA đăng nhập -->
+                  
                   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
                   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
               </c:otherwise>
@@ -235,5 +235,6 @@
     </div>
   </div>
 </nav>
-<!-- Phần ruột (container) sẽ để các file khác nhúng vào -->
+
 <div class="container">
+

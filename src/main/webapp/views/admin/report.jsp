@@ -6,7 +6,7 @@
 
 <h4 class="fw-bold mb-4" style="color: #495057;">BÁO CÁO - THỐNG KÊ</h4>
 
-<!-- Tabs Giao diện -->
+
 <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link ${activeTab == 'favorites' ? 'active' : ''}" 
@@ -33,7 +33,7 @@
 
 <div class="tab-content" id="reportTabsContent">
   
-  <!-- TAB 1: FAVORITES -->
+  
   <div class="tab-pane fade ${activeTab == 'favorites' ? 'show active' : ''}" id="favorites" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body p-0">
@@ -64,7 +64,7 @@
       </div>
   </div>
   
-  <!-- TAB 2: FAVORITE USERS -->
+  
   <div class="tab-pane fade ${activeTab == 'favUsers' ? 'show active' : ''}" id="favUsers" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body bg-light py-2 border-bottom border-warning">
@@ -106,7 +106,7 @@
       </div>
   </div>
   
-  <!-- TAB 3: SHARED FRIENDS -->
+  
   <div class="tab-pane fade ${activeTab == 'sharedFriends' ? 'show active' : ''}" id="sharedFriends" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body bg-light py-2 border-bottom border-warning">
@@ -151,3 +151,4 @@
 </div>
 
 <jsp:include page="/views/layout/admin_footer.jsp" />
+

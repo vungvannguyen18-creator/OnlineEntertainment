@@ -10,6 +10,15 @@
             <i class="fa-solid fa-video me-2"></i>Thêm Video Mới
         </a>
     </div>
+    
+    <c:if test="${not empty sessionScope.error}">
+        <div class="alert alert-danger fw-bold">${sessionScope.error}</div>
+        <c:remove var="error" scope="session" />
+    </c:if>
+    <c:if test="${not empty sessionScope.message}">
+        <div class="alert alert-success fw-bold">${sessionScope.message}</div>
+        <c:remove var="message" scope="session" />
+    </c:if>
 
     <div class="card shadow-sm border-0">
         <div class="card-body p-0">

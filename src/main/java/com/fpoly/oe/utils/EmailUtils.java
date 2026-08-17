@@ -1,4 +1,4 @@
-package com.fpoly.oe.utils;
+﻿package com.fpoly.oe.utils;
 
 import java.util.Properties;
 import jakarta.mail.Authenticator;
@@ -9,7 +9,6 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 public class EmailUtils {
-    // THAY ĐỔI EMAIL VÀ APP PASSWORD CỦA BẠN VÀO ĐÂY
     private static final String EMAIL = "your_email@gmail.com"; 
     private static final String PASSWORD = "your_app_password";
 
@@ -39,11 +38,10 @@ public class EmailUtils {
             
             message.setContent(htmlContent, "text/html; charset=UTF-8");
             
-            // jakarta.mail.Transport.send(message); // Đã comment lại để tránh lỗi sập web khi chưa điền mật khẩu email, khi điền mật khẩu xong thì mở comment ra
             
-            // Uncomment the line above once the email and password are provided
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+

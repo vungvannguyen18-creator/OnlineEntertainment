@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -52,7 +52,6 @@ public class ChangePasswordController extends HttpServlet {
                 currentUser.setPassword(newPassword);
                 dao.update(currentUser);
                 req.setAttribute("message", "Đổi mật khẩu thành công!");
-                // Cập nhật lại session
                 session.setAttribute("user", currentUser);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,3 +62,4 @@ public class ChangePasswordController extends HttpServlet {
         req.getRequestDispatcher("/views/user/change-password.jsp").forward(req, resp);
     }
 }
+

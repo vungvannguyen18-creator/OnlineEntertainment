@@ -18,7 +18,7 @@
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">FILE VIDEO <c:if test="${empty formVideo.id}">(*)</c:if></label>
-                            <input type="file" class="form-control" name="video" accept="video/*" ${empty formVideo.id ? 'required' : ''}>
+                            <input type="file" class="form-control" name="video" accept="video/*">
                             <c:if test="${not empty formVideo.id}">
                                 <input type="hidden" name="id" value="${formVideo.id}">
                                 <small class="text-muted">Đang dùng video cũ. Chọn file mới để thay thế.</small>
@@ -41,7 +41,7 @@
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">ẢNH POSTER <c:if test="${empty formVideo.id}">(*)</c:if></label>
-                            <input type="file" class="form-control" name="poster" accept="image/*" ${empty formVideo.id ? 'required' : ''}>
+                            <input type="file" class="form-control" name="poster" accept="image/*">
                             <small class="text-muted">Chọn ảnh đại diện cho video (tối đa 2MB). <c:if test="${not empty formVideo.id}">Bỏ trống nếu không muốn đổi ảnh.</c:if></small>
                         </div>
                         
@@ -52,16 +52,24 @@
                         
                         <div class="mb-3">
                             <label class="form-label fw-bold">TRẠNG THÁI</label>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input border-danger" type="radio" name="active" id="active" value="true" ${formVideo.active == true || formVideo.active == null ? 'checked' : ''}>
-                                    <label class="form-check-label fw-bold" for="active">Công khai</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input border-danger" type="radio" name="active" id="inactive" value="false" ${formVideo.active == false && formVideo.active != null ? 'checked' : ''}>
-                                    <label class="form-check-label fw-bold" for="inactive">Riêng tư (Nháp)</label>
-                                </div>
-                            </div>
+                            <c:choose>
+                                <c:when test="${empty formVideo.id}">
+                                    <div class="text-danger fw-bold" style="font-size: 14px;"><i class="fa-solid fa-clock-rotate-left"></i> Chờ duyệt (Video tải lên cần được Quản trị viên phê duyệt)</div>
+                                    <input type="hidden" name="active" value="false">
+                                </c:when>
+                                <c:otherwise>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input border-danger" type="radio" name="active" id="active" value="true" ${formVideo.active == true ? 'checked' : ''}>
+                                            <label class="form-check-label fw-bold" for="active">Công khai</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input border-danger" type="radio" name="active" id="inactive" value="false" ${formVideo.active == false ? 'checked' : ''}>
+                                            <label class="form-check-label fw-bold" for="inactive">Riêng tư (Nháp)</label>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         
                         <div class="mb-4">

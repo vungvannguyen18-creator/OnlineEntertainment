@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -15,11 +15,10 @@ public class LogoutController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Xóa thông tin đăng nhập trong Session
         HttpSession session = req.getSession();
         session.removeAttribute("user");
         
-        // Chuyển về trang chủ
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }
+

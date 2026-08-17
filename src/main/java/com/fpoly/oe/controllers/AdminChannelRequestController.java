@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +19,6 @@ public class AdminChannelRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ChannelRequestDAO dao = new ChannelRequestDAO();
-        // Hiển thị tất cả danh sách đang PENDING (Chờ duyệt)
         List<ChannelRequest> requests = dao.findAllPending();
         req.setAttribute("channelRequests", requests);
         
@@ -53,7 +52,7 @@ public class AdminChannelRequestController extends HttpServlet {
             }
         }
         
-        // Gọi lại doGet để load lại danh sách
         doGet(req, resp);
     }
 }
+

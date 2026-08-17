@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -38,11 +38,9 @@ public class FollowController extends HttpServlet {
         if (channel != null && !channel.getId().equals(user.getId())) {
             Follow existingFollow = followDAO.findFollow(user.getId(), channelId);
             if (existingFollow != null) {
-                // Đã theo dõi -> Hủy theo dõi
                 followDAO.delete(existingFollow.getId());
                 req.getSession().setAttribute("message", "Đã hủy theo dõi kênh " + channel.getFullname());
             } else {
-                // Chưa theo dõi -> Thêm theo dõi
                 Follow follow = new Follow();
                 follow.setFollower(user);
                 follow.setChannel(channel);
@@ -51,7 +49,6 @@ public class FollowController extends HttpServlet {
             }
         }
         
-        // Quay lại trang trước đó
         String referer = req.getHeader("Referer");
         if (referer != null && !referer.contains("/login") && !referer.contains("/register")) {
             resp.sendRedirect(referer);
@@ -60,3 +57,4 @@ public class FollowController extends HttpServlet {
         }
     }
 }
+

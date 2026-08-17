@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -30,7 +30,6 @@ public class RegisterController extends HttpServlet {
             
             UserDAO dao = new UserDAO();
             
-            // Backend Validations
             if (id == null || id.length() < 4) {
                 req.setAttribute("error", "Tên đăng nhập phải có ít nhất 4 ký tự!");
                 req.getRequestDispatcher("/views/user/register.jsp").forward(req, resp);
@@ -52,14 +51,12 @@ public class RegisterController extends HttpServlet {
                 return;
             }
             
-            // Check if user exists
             if (dao.findById(id) != null) {
                 req.setAttribute("error", "Tên đăng nhập (ID) này đã tồn tại!");
                 req.getRequestDispatcher("/views/user/register.jsp").forward(req, resp);
                 return;
             }
             
-            // Create new User
             User newUser = new User();
             newUser.setId(id);
             newUser.setPassword(password);
@@ -69,7 +66,6 @@ public class RegisterController extends HttpServlet {
             
             dao.create(newUser);
             
-            // Gửi email chào mừng
             com.fpoly.oe.utils.EmailUtils.sendWelcomeEmail(email, fullname);
             
             req.setAttribute("message", "Đăng ký thành công! Vui lòng đăng nhập.");
@@ -82,3 +78,4 @@ public class RegisterController extends HttpServlet {
         }
     }
 }
+

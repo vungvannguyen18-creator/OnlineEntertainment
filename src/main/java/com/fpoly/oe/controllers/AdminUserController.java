@@ -53,7 +53,6 @@ public class AdminUserController extends HttpServlet {
             user.setFullname(req.getParameter("fullname"));
             user.setEmail(req.getParameter("email"));
             
-            // Validate
             if (!uri.contains("/delete") && !uri.endsWith("/lock") && !uri.endsWith("/unlock")) {
                 if (user.getId() == null || user.getId().trim().isEmpty() ||
                     user.getPassword() == null || user.getPassword().trim().isEmpty() ||
@@ -68,7 +67,6 @@ public class AdminUserController extends HttpServlet {
                 }
             }
             
-            // Lấy role từ radio button (nếu có)
             String roleStr = req.getParameter("role");
             user.setAdmin("true".equals(roleStr));
             
@@ -86,21 +84,20 @@ public class AdminUserController extends HttpServlet {
             } else if (uri.contains("/update")) {
                 User existing = dao.findById(user.getId());
                 if (existing != null) {
-                    user.setActive(existing.getActive()); // Preserve active state
+                    user.setActive(existing.getActive()); 
                 }
                 dao.update(user);
                 req.setAttribute("message", "Cập nhật người dùng thành công!");
                 user = new User();
                 activeTab = "userList";
             } else if (uri.contains("/delete")) {
-                // Không cho phép tự xóa chính mình nếu đang login
                 User sessionUser = (User) req.getSession().getAttribute("user");
                 if (sessionUser != null && sessionUser.getId().equals(user.getId())) {
                     req.setAttribute("error", "Không thể tự xóa tài khoản của chính mình!");
                 } else {
                     dao.delete(user.getId());
                     req.setAttribute("message", "Xóa người dùng thành công!");
-                    user = new User(); // Xóa xong thì form trống
+                    user = new User(); 
                     activeTab = "userList";
                 }
             } else if (uri.endsWith("/lock") || uri.endsWith("/unlock")) {
@@ -112,6 +109,8 @@ public class AdminUserController extends HttpServlet {
                     
                     if (isSelf && isLockAction) {
                         req.setAttribute("error", "Không thể tự khóa tài khoản của chính mình!");
+                    } else if (targetUser.isAdmin() && isLockAction) {
+                        req.setAttribute("error", "Không thể khóa tài khoản Quản trị viên!");
                     } else {
                         targetUser.setActive(!isLockAction);
                         dao.update(targetUser);
@@ -123,8 +122,8 @@ public class AdminUserController extends HttpServlet {
                         
                         req.setAttribute("message", !isLockAction ? "Đã mở khóa tài khoản!" : "Đã khóa tài khoản!");
                     }
-                    user = new User(); // Xóa form
-                    activeTab = "userList"; // Trở lại tab list
+                    user = new User(); 
+                    activeTab = "userList"; 
                 }
             }
             
@@ -170,3 +169,4 @@ public class AdminUserController extends HttpServlet {
         req.setAttribute("totalCount", totalUsers);
     }
 }
+

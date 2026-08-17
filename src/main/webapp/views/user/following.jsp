@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 
@@ -18,7 +18,7 @@
             <c:forEach items="${videos}" var="v">
                 <div class="col-md-4">
                     <div class="card h-100 border-0 bg-transparent">
-                        <!-- Thumbnail -->
+                        
                         <a href="${pageContext.request.contextPath}/video?id=${v.id}" class="text-decoration-none">
                             <div class="position-relative">
                                 <c:choose>
@@ -32,7 +32,7 @@
                             </div>
                         </a>
                         
-                        <!-- Video Info -->
+                        
                         <div class="card-body d-flex px-0 pt-2 pb-0">
                             <div class="me-3">
                                 <a href="${pageContext.request.contextPath}/channel?id=${v.user.id}">
@@ -74,3 +74,4 @@
 </c:choose>
 
 <jsp:include page="/views/layout/footer.jsp" />
+

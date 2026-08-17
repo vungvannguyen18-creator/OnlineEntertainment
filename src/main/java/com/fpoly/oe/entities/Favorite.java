@@ -1,4 +1,4 @@
-package com.fpoly.oe.entities;
+﻿package com.fpoly.oe.entities;
 
 import java.util.Date;
 
@@ -38,7 +38,6 @@ public class Favorite {
 	@Column(name = "LikeDate")
 	private Date likeDate = new Date();
 
-	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -71,3 +70,4 @@ public class Favorite {
 		this.likeDate = likeDate;
 	}
 }
+

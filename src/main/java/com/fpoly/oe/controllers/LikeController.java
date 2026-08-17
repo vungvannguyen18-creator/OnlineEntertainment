@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.Date;
@@ -25,7 +25,6 @@ public class LikeController extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         
-        // 1. Kiểm tra đăng nhập
         if (user == null) {
             String uri = req.getRequestURI() + (req.getQueryString() != null ? "?" + req.getQueryString() : "");
             session.setAttribute("securityUri", uri);
@@ -43,25 +42,21 @@ public class LikeController extends HttpServlet {
             FavoriteDAO favDao = new FavoriteDAO();
             VideoDAO videoDao = new VideoDAO();
             
-            // 2. Tìm Video
             Video video = videoDao.findById(videoId);
             if (video == null) {
                 resp.sendRedirect(req.getContextPath() + "/home");
                 return;
             }
             
-            // 3. Kiểm tra xem đã Like chưa
             Favorite existFav = favDao.findByUserIdAndVideoId(user.getId(), videoId);
             
             if (existFav == null) {
-                // Nếu chưa Like -> Thêm mới
                 Favorite newFav = new Favorite();
                 newFav.setUser(user);
                 newFav.setVideo(video);
                 newFav.setLikeDate(new Date());
                 favDao.create(newFav);
             } else {
-                // Nếu đã Like -> Bỏ Like (Xóa)
                 favDao.delete(existFav.getId());
             }
             
@@ -69,7 +64,6 @@ public class LikeController extends HttpServlet {
             e.printStackTrace();
         }
         
-        // 4. Quay về trang trước đó (Referer)
         String referer = req.getHeader("Referer");
         if (referer != null && !referer.contains("/login") && !referer.contains("/register")) {
             resp.sendRedirect(referer);
@@ -78,3 +72,4 @@ public class LikeController extends HttpServlet {
         }
     }
 }
+

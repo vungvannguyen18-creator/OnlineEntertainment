@@ -13,13 +13,13 @@
         </c:if>
         
         <div class="card border border-warning shadow-sm">
-            <!-- Header -->
+            
             <div class="card-header border-warning" style="background-color: #e8f5e9;">
                 <h5 class="m-0 fw-bold text-dark" style="font-size: 18px;">QUÊN MẬT KHẨU</h5>
             </div>
             
             <form action="${pageContext.request.contextPath}/forgot-password" method="POST">
-                <!-- Body -->
+                
                 <div class="card-body" style="padding: 20px;">
                     <div class="mb-3">
                         <label class="form-label fw-bold text-dark" style="font-size: 16px;">TÊN ĐĂNG NHẬP?</label>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 
-                <!-- Footer -->
+                
                 <div class="card-footer bg-light border-warning d-flex justify-content-end p-2">
                     <button type="submit" class="btn btn-warning fw-bold text-white px-4" 
                             style="background-color: #ff8c00; border-color: #ff8c00; font-size: 16px; border-radius: 4px; box-shadow: 1px 2px 3px rgba(0,0,0,0.2);">
@@ -50,3 +50,4 @@
 </div>
 
 <jsp:include page="/views/layout/footer.jsp" />
+

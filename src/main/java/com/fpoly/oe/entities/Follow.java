@@ -1,4 +1,4 @@
-package com.fpoly.oe.entities;
+﻿package com.fpoly.oe.entities;
 
 import java.util.Date;
 
@@ -40,7 +40,6 @@ public class Follow {
     @Column(name = "FollowDate")
     private Date followDate = new Date();
 
-    // Custom Getters and Setters just in case Lombok is not working in this specific env
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public User getFollower() { return follower; }
@@ -50,3 +49,4 @@ public class Follow {
     public Date getFollowDate() { return followDate; }
     public void setFollowDate(Date followDate) { this.followDate = followDate; }
 }
+

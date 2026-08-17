@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -64,7 +64,6 @@ public class EditProfileController extends HttpServlet {
             dao.update(currentUser);
             
             req.setAttribute("message", "Cập nhật thông tin thành công!");
-            // Cập nhật lại session với thông tin mới nhất
             session.setAttribute("user", currentUser);
             
         } catch (Exception e) {
@@ -79,3 +78,4 @@ public class EditProfileController extends HttpServlet {
         req.getRequestDispatcher("/views/user/edit-profile.jsp").forward(req, resp);
     }
 }
+

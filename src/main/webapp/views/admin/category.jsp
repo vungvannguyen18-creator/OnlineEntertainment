@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
 
-<!-- Tabs Giao diện -->
+
 <ul class="nav nav-tabs mb-4" id="categoryTabs" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link ${activeTab == 'edition' || empty activeTab ? 'active' : ''}" 
@@ -21,7 +21,7 @@
 
 <div class="tab-content" id="categoryTabsContent">
   
-  <!-- TAB: EDITION -->
+  
   <div class="tab-pane fade ${activeTab == 'edition' || empty activeTab ? 'show active' : ''}" id="edition" role="tabpanel">
       
       <c:if test="${not empty message}">
@@ -46,7 +46,7 @@
                       </div>
                   </div>
                   
-                  <!-- Nút bấm -->
+                  
                   <div class="row border-top border-warning pt-3 mt-2">
                       <div class="col-12 d-flex justify-content-end gap-2">
                           <button type="submit" formaction="${pageContext.request.contextPath}/admin/category/create" class="btn btn-secondary fw-bold" ${isEdit ? 'disabled' : ''}>Thêm mới</button>
@@ -60,7 +60,7 @@
       </div>
   </div>
   
-  <!-- TAB: LIST -->
+  
   <div class="tab-pane fade ${activeTab == 'list' ? 'show active' : ''}" id="list" role="tabpanel">
       <div class="card border border-warning shadow-sm">
           <div class="card-body p-0">
@@ -100,3 +100,4 @@
 </div>
 
 <jsp:include page="/views/layout/admin_footer.jsp" />
+

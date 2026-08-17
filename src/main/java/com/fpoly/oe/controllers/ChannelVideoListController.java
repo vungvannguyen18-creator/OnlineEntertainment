@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,17 +23,16 @@ public class ChannelVideoListController extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         
-        // Filter đã lo việc check đăng nhập, nhưng ta cứ check lại cho chắc chắn
         if (user == null || user.getId() == null) {
             resp.sendRedirect(req.getContextPath() + "/user/login");
             return;
         }
 
         VideoDAO videoDAO = new VideoDAO();
-        // Lấy danh sách video của chính User đó
         List<Video> videos = videoDAO.findVideosByUser(user.getId());
         
         req.setAttribute("videos", videos);
         req.getRequestDispatcher("/views/channel/video-list.jsp").forward(req, resp);
     }
 }
+

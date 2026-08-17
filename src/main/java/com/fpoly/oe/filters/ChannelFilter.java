@@ -1,4 +1,4 @@
-package com.fpoly.oe.filters;
+﻿package com.fpoly.oe.filters;
 
 import java.io.IOException;
 import jakarta.servlet.Filter;
@@ -28,7 +28,6 @@ public class ChannelFilter implements Filter {
         
         User user = (User) session.getAttribute("user");
         
-        // Filter kiểm tra vai trò và user id có hợp lệ không? (Nếu không quay về login)
         if (user == null || user.getId() == null) {
             session.setAttribute("securityUri", req.getRequestURI());
             req.setAttribute("error", "Vui lòng đăng nhập để thực hiện chức năng này!");
@@ -36,8 +35,6 @@ public class ChannelFilter implements Filter {
             return;
         }
         
-        // Kiểm tra xem user có phải admin hoặc đã được duyệt channel chưa
-        // Ngoại trừ URL /channel/request vì đây là URL dùng để xin cấp quyền
         if (!user.isAdmin() && !req.getRequestURI().contains("/channel/request")) {
             com.fpoly.oe.dao.ChannelRequestDAO channelDAO = new com.fpoly.oe.dao.ChannelRequestDAO();
             com.fpoly.oe.entities.ChannelRequest channelReq = channelDAO.findByUserId(user.getId());
@@ -49,10 +46,10 @@ public class ChannelFilter implements Filter {
             }
         }
         
-        // Hợp lệ thì cho đi tiếp
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {}
 }
+

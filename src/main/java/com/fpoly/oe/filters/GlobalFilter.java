@@ -1,4 +1,4 @@
-package com.fpoly.oe.filters;
+﻿package com.fpoly.oe.filters;
 
 import java.io.IOException;
 
@@ -21,7 +21,6 @@ public class GlobalFilter implements Filter {
         
         HttpServletRequest req = (HttpServletRequest) request;
         
-        // Load categories into Application Context once
         if (req.getServletContext().getAttribute("globalCategories") == null) {
             CategoryDAO dao = new CategoryDAO();
             req.getServletContext().setAttribute("globalCategories", dao.findAll());
@@ -30,3 +29,4 @@ public class GlobalFilter implements Filter {
         chain.doFilter(request, response);
     }
 }
+

@@ -1,4 +1,4 @@
-package com.fpoly.oe.filters;
+﻿package com.fpoly.oe.filters;
 
 import java.io.IOException;
 import jakarta.servlet.Filter;
@@ -28,7 +28,6 @@ public class AdminFilter implements Filter {
         
         User user = (User) session.getAttribute("user");
         
-        // Kiểm tra nếu chưa đăng nhập hoặc không phải admin
         if (user == null || !user.isAdmin()) {
             session.setAttribute("securityUri", req.getRequestURI());
             req.setAttribute("error", "Bạn không có quyền truy cập vào khu vực quản trị!");
@@ -36,10 +35,10 @@ public class AdminFilter implements Filter {
             return;
         }
         
-        // Nếu là admin thì cho qua
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {}
 }
+

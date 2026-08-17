@@ -1,4 +1,4 @@
-package com.fpoly.oe.entities;
+﻿package com.fpoly.oe.entities;
 
 import java.util.Date;
 
@@ -32,14 +32,12 @@ public class ChannelRequest {
     private User user;
 
     @Column(name = "Status", length = 20)
-    // Trạng thái: PENDING (Chờ duyệt), APPROVED (Đã duyệt), REJECTED (Từ chối)
     private String status = "PENDING"; 
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "RequestDate")
     private Date requestDate = new Date();
     
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -52,3 +50,4 @@ public class ChannelRequest {
     public Date getRequestDate() { return requestDate; }
     public void setRequestDate(Date requestDate) { this.requestDate = requestDate; }
 }
+

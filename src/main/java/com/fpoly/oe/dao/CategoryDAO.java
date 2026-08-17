@@ -1,4 +1,4 @@
-package com.fpoly.oe.dao;
+﻿package com.fpoly.oe.dao;
 
 import com.fpoly.oe.entities.Category;
 
@@ -7,3 +7,4 @@ public class CategoryDAO extends AbstractDAO<Category> {
         super(Category.class);
     }
 }
+

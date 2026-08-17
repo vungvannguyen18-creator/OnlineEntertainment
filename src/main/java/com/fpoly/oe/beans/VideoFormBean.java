@@ -1,4 +1,4 @@
-package com.fpoly.oe.beans;
+﻿package com.fpoly.oe.beans;
 
 import jakarta.servlet.http.Part;
 import lombok.Data;
@@ -15,7 +15,6 @@ public class VideoFormBean {
     
     private Part videoPart;
 
-    // Validate data
     public String validate(boolean isEdit) {
         if (title == null || title.trim().isEmpty()) {
             return "Tiêu đề không được để trống!";
@@ -26,6 +25,7 @@ public class VideoFormBean {
         if (!isEdit && (posterPart == null || posterPart.getSize() == 0)) {
             return "Vui lòng chọn ảnh poster!";
         }
-        return null; // Không có lỗi
+        return null; 
     }
 }
+

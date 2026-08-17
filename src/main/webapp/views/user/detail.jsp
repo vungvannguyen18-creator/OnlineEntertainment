@@ -10,10 +10,10 @@
 <body>
 <jsp:include page="/views/layout/header.jsp" />
 <div class="row mt-4 mb-5">
-    <!-- Cột bên trái: Chi tiết Video (Giống y hệt bản thiết kế) -->
+    
     <div class="col-lg-8">
         <div class="card">
-            <!-- Video -->
+            
             <div class="card-body p-0">
                 <div class="ratio ratio-16x9 rounded-4 overflow-hidden bg-dark">
                     <c:choose>
@@ -30,23 +30,23 @@
                 </div>
             </div>
             
-            <!-- Thông tin Video & Các nút (Style YouTube) -->
+            
             <div class="card-body px-3 pt-3 pb-4">
-                <!-- Tiêu đề Video -->
+                
                 <h5 class="fw-bold text-dark mb-3" style="font-size: 1.25rem;">${video.title}</h5>
                 
-                <!-- Action Row (Author & Buttons) -->
+                
                 <div class="d-flex flex-wrap justify-content-between align-items-center">
-                    <!-- Left: Author & Follow -->
+                    
                     <div class="d-flex align-items-center gap-3 mb-2 mb-md-0">
                         <c:if test="${not empty video.user}">
-                            <div class="d-flex align-items-center">
+                            <a href="${pageContext.request.contextPath}/channel?id=${video.user.id}" class="d-flex align-items-center text-decoration-none">
                                 <i class="fa-solid fa-user-circle fa-2x text-secondary me-2"></i>
                                 <div class="d-flex flex-column lh-1">
                                     <span class="fw-bold text-dark" style="font-size: 16px;">${video.user.fullname}</span>
                                     <span class="text-muted mt-1" style="font-size: 12px;">${followerCount} người theo dõi</span>
                                 </div>
-                            </div>
+                            </a>
                             <c:if test="${not empty sessionScope.user && sessionScope.user.id != video.user.id}">
                                 <c:choose>
                                     <c:when test="${isFollowing}">
@@ -64,7 +64,7 @@
                         </c:if>
                     </div>
                     
-                    <!-- Right: Action Buttons -->
+                    
                     <div class="d-flex align-items-center gap-2">
                         <div class="btn-group bg-light rounded-pill" style="background-color: #f2f2f2 !important;">
                             <a href="${pageContext.request.contextPath}/like?id=${video.id}" class="btn btn-sm rounded-pill fw-bold d-flex align-items-center gap-1 px-3" style="border: none; color: #0f0f0f;">
@@ -77,17 +77,17 @@
                     </div>
                 </div>
                 
-                <!-- Description Box -->
+                
                 <div class="mt-3 p-3 rounded-4" style="background-color: #f2f2f2;">
                     <div class="fw-bold mb-1" style="font-size: 14px;">${video.views} lượt xem</div>
                     <p class="card-text mb-0" style="font-size: 14px; white-space: pre-wrap; color: #0f0f0f;">${video.description}</p>
                 </div>
                 
-                <!-- Comments Section -->
+                
                 <div class="mt-5">
                     <h5 class="fw-bold mb-4" style="font-size: 18px;">${fn:length(comments)} Bình luận</h5>
                     
-                    <!-- Comment Form -->
+                    
                     <c:choose>
                         <c:when test="${empty sessionScope.user}">
                             <div class="alert alert-light border-0 px-0 d-flex align-items-center gap-2">
@@ -100,7 +100,7 @@
                                 <i class="fa-solid fa-user-circle fa-2x text-secondary mt-1"></i>
                                 <div class="flex-grow-1">
                                     <input type="hidden" name="videoId" value="${video.id}">
-                                    <textarea class="form-control border-0 border-bottom border-dark rounded-0 px-0 shadow-none" name="content" rows="1" placeholder="Viết bình luận..." required style="background-color: transparent; resize: none; overflow: hidden;" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+                                    <textarea class="form-control border-0 border-bottom border-dark rounded-0 px-0 shadow-none" name="content" rows="1" placeholder="Viết bình luận..." style="background-color: transparent; resize: none; overflow: hidden;" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
                                     <div class="d-flex justify-content-end mt-2">
                                         <button type="submit" class="btn btn-sm rounded-pill fw-bold px-3" style="background-color: #f2f2f2; color: #0f0f0f; border: none;">Bình luận</button>
                                     </div>
@@ -109,7 +109,7 @@
                         </c:otherwise>
                     </c:choose>
                     
-                    <!-- Comment List -->
+                    
                     <div>
                         <c:choose>
                             <c:when test="${empty comments}">
@@ -137,7 +137,7 @@
                                                 </div>
                                                 <p class="mb-0 text-dark mt-1" style="font-size: 14px; white-space: pre-wrap; line-height: 1.5;">${c.content}</p>
                                                 
-                                                <!-- Comment Actions (Like, Dislike, Reply) -->
+                                                
                                                 <div class="d-flex align-items-center mt-2 gap-3" style="font-size: 12px; font-weight: 500;">
                                                     <a href="javascript:void(0)" class="text-decoration-none text-dark btn-like-comment d-flex align-items-center gap-1">
                                                         <i class="fa-regular fa-thumbs-up" style="font-size: 14px;"></i> <span class="like-count">0</span>
@@ -152,7 +152,7 @@
                                                     </c:if>
                                                 </div>
                                                 
-                                                <!-- Inline Reply Form (Hidden by default) -->
+                                                
                                                 <div id="reply-form-${c.id}" class="d-none mt-3">
                                                     <c:choose>
                                                         <c:when test="${empty sessionScope.user}">
@@ -164,7 +164,7 @@
                                                                 <div class="flex-grow-1">
                                                                     <input type="hidden" name="videoId" value="${video.id}">
                                                                     <input type="hidden" name="parentId" value="${c.id}">
-                                                                    <textarea class="form-control border-0 border-bottom border-dark rounded-0 px-0 shadow-none" name="content" rows="1" required style="background-color: transparent; resize: none; overflow: hidden; font-size: 14px;" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'">@${c.user.id} </textarea>
+                                                                    <textarea class="form-control border-0 border-bottom border-dark rounded-0 px-0 shadow-none" name="content" rows="1" style="background-color: transparent; resize: none; overflow: hidden; font-size: 14px;" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'">@${c.user.id} </textarea>
                                                                     <div class="d-flex justify-content-end mt-2 gap-2">
                                                                         <button type="button" class="btn btn-sm fw-bold px-3" style="color: #0f0f0f; border: none; background: transparent;" onclick="toggleReplyForm('${c.id}')">Hủy</button>
                                                                         <button type="submit" class="btn btn-sm rounded-pill fw-bold px-3" style="background-color: #065fd4; color: #fff; border: none;">Phản hồi</button>
@@ -175,7 +175,7 @@
                                                     </c:choose>
                                                 </div>
                                                 
-                                                <!-- Replies List -->
+                                                
                                                 <div class="mt-3">
                                                     <c:forEach items="${comments}" var="r">
                                                         <c:if test="${r.parentId == c.id}">
@@ -197,7 +197,7 @@
                                                                     </div>
                                                                     <p class="mb-0 text-dark mt-1" style="font-size: 14px; white-space: pre-wrap; line-height: 1.5;">${r.content}</p>
                                                                     
-                                                                    <!-- Reply actions (Like) -->
+                                                                    
                                                                     <div class="d-flex align-items-center mt-2 gap-3" style="font-size: 12px; font-weight: 500;">
                                                                         <a href="javascript:void(0)" class="text-decoration-none text-dark btn-like-comment d-flex align-items-center gap-1">
                                                                             <i class="fa-regular fa-thumbs-up" style="font-size: 14px;"></i> <span class="like-count">0</span>
@@ -228,7 +228,7 @@
         </div>
     </div>
     
-    <!-- Cột bên phải: Danh sách Video đã xem (Lấy từ Cookie) -->
+    
     <div class="col-lg-4">
         <c:choose>
             <c:when test="${empty viewedVideos}">
@@ -237,7 +237,7 @@
             <c:otherwise>
                 <c:forEach items="${viewedVideos}" var="vv">
                     <div class="d-flex mb-2 align-items-start">
-                        <!-- Poster -->
+                        
                         <div class="position-relative me-2" style="width: 160px; min-width: 160px;">
                             <a href="${pageContext.request.contextPath}/video?id=${vv.id}">
                                 <c:choose>
@@ -250,7 +250,7 @@
                                 </c:choose>
                             </a>
                         </div>
-                        <!-- Tiêu đề -->
+                        
                         <div>
                             <a href="${pageContext.request.contextPath}/video?id=${vv.id}" class="text-decoration-none text-dark fw-bold" style="font-size: 14px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                 ${vv.title}
@@ -281,7 +281,7 @@
 </div>
 <jsp:include page="/views/layout/footer.jsp" />
 
-<!-- JS for Comment Actions -->
+
 <script>
 function toggleReplyForm(commentId, replyToUser) {
     const formContainer = document.getElementById('reply-form-' + commentId);
@@ -327,3 +327,4 @@ document.querySelectorAll('.btn-like-comment').forEach(function(btn) {
 </script>
 </body>
 </html>
+

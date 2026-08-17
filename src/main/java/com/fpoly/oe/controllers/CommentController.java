@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.Date;
@@ -37,7 +37,6 @@ public class CommentController extends HttpServlet {
                     CommentDAO cdao = new CommentDAO();
                     Comment c = cdao.findById(commentId);
                     
-                    // Kiểm tra quyền xóa (chủ bình luận hoặc admin)
                     if (c != null && (c.getUser().getId().equals(user.getId()) || user.isAdmin())) {
                         cdao.deleteWithReplies(commentId);
                     }
@@ -80,7 +79,6 @@ public class CommentController extends HttpServlet {
                     try {
                         comment.setParentId(Long.parseLong(parentIdStr));
                     } catch (NumberFormatException e) {
-                        // Ignore invalid parent ID
                     }
                 }
                 
@@ -92,3 +90,4 @@ public class CommentController extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/video?id=" + videoId);
     }
 }
+

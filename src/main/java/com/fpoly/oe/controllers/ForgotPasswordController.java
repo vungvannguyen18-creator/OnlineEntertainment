@@ -1,4 +1,4 @@
-package com.fpoly.oe.controllers;
+﻿package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 
@@ -36,7 +36,6 @@ public class ForgotPasswordController extends HttpServlet {
             User user = dao.findById(id);
             
             if (user != null && user.getEmail().equals(email)) {
-                // Trong thực tế sẽ gửi email, nhưng ở đây mình hiện thẳng mật khẩu ra màn hình cho dễ test
                 req.setAttribute("message", "Mật khẩu của bạn là: " + user.getPassword());
             } else {
                 req.setAttribute("error", "Tên đăng nhập hoặc Email không đúng!");
@@ -49,3 +48,4 @@ public class ForgotPasswordController extends HttpServlet {
         req.getRequestDispatcher("/views/user/forgot-password.jsp").forward(req, resp);
     }
 }
+

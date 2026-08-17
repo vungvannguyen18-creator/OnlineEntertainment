@@ -1,4 +1,4 @@
-package com.fpoly.oe.entities;
+﻿package com.fpoly.oe.entities;
 
 import java.util.Date;
 
@@ -43,7 +43,6 @@ public class Share {
     @Column(name = "SharedDate")
     private Date sharedDate = new Date();
     
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -59,3 +58,4 @@ public class Share {
     public Date getSharedDate() { return sharedDate; }
     public void setSharedDate(Date sharedDate) { this.sharedDate = sharedDate; }
 }
+
