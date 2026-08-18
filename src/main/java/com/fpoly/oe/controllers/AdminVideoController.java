@@ -39,6 +39,7 @@ public class AdminVideoController extends HttpServlet {
 
         req.setAttribute("formVideo", formVideo);
         req.setAttribute("activeTab", activeTab);
+        req.setAttribute("categories", new com.fpoly.oe.dao.CategoryDAO().findAll());
 
         req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
     }
@@ -136,9 +137,19 @@ public class AdminVideoController extends HttpServlet {
                     Video existing = dao.findById(video.getId());
                     if (existing != null) {
                         video.setUser(existing.getUser());
-                        video.setCategory(existing.getCategory());
                         video.setUploadDate(existing.getUploadDate());
                     }
+                }
+                
+                String categoryIdStr = req.getParameter("categoryId");
+                if (categoryIdStr != null && !categoryIdStr.trim().isEmpty()) {
+                    try {
+                        com.fpoly.oe.entities.Category cat = new com.fpoly.oe.dao.CategoryDAO().findById(Long.parseLong(categoryIdStr));
+                        video.setCategory(cat);
+                    } catch (Exception e) {}
+                } else if (uri.contains("/update")) {
+                    Video existing = dao.findById(video.getId());
+                    if (existing != null) video.setCategory(existing.getCategory());
                 }
 
                 if (!uri.contains("/delete")) {
@@ -156,6 +167,8 @@ public class AdminVideoController extends HttpServlet {
                         errorMsg = "Vui lòng nhập tiêu đề video!";
                     } else if (uri.contains("/create") && (valPosterPart == null || valPosterPart.getSize() == 0)) {
                         errorMsg = "Vui lòng chọn ảnh poster!";
+                    } else if (video.getCategory() == null) {
+                        errorMsg = "Vui lòng chọn danh mục!";
                     }
 
                     if (errorMsg != null) {
@@ -165,6 +178,7 @@ public class AdminVideoController extends HttpServlet {
                         req.setAttribute("error", errorMsg);
                         req.setAttribute("activeTab", "videoEdition");
                         req.setAttribute("formVideo", video);
+                        req.setAttribute("categories", new com.fpoly.oe.dao.CategoryDAO().findAll());
                         loadPagination(req, dao);
                         req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
                         return;
@@ -205,6 +219,7 @@ public class AdminVideoController extends HttpServlet {
         }
 
         loadPagination(req, dao);
+        req.setAttribute("categories", new com.fpoly.oe.dao.CategoryDAO().findAll());
         req.getRequestDispatcher("/views/admin/video.jsp").forward(req, resp);
     }
 

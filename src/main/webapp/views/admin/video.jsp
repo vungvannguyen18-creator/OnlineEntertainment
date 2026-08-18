@@ -65,6 +65,15 @@
                               <input type="text" class="form-control border-warning" name="title" value="${formVideo.title}">
                           </div>
                           <div class="mb-3">
+                              <label class="form-label fw-bold">DANH MỤC (*)</label>
+                              <select class="form-select border-warning" name="categoryId">
+                                  <option value="">-- Chọn danh mục --</option>
+                                  <c:forEach items="${categories}" var="c">
+                                      <option value="${c.id}" ${formVideo.category != null && formVideo.category.id == c.id ? 'selected' : ''}>${c.name}</option>
+                                  </c:forEach>
+                              </select>
+                          </div>
+                          <div class="mb-3">
                               <label class="form-label fw-bold">ẢNH POSTER <c:if test="${empty formVideo.id}">(*)</c:if></label>
                               <input type="file" class="form-control border-warning" name="poster" accept="image/*">
                           </div>
