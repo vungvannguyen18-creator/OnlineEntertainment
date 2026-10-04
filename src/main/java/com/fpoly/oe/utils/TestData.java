@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.utils;
+package com.fpoly.oe.utils;
 
 import com.fpoly.oe.dao.UserDAO;
 import com.fpoly.oe.entities.User;

@@ -1,0 +1,48 @@
+name: Java CI/CD Automated Testing
+
+# Tự động chạy khi có sự kiện push hoặc pull_request vào nhánh main/master
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Cho phép kích hoạt thủ công trên GitHub UI
+
+jobs:
+  build-and-test:
+    name: Run Automated Tests & Generate Reports
+    runs-on: ubuntu-latest
+
+    steps:
+      # Bước 1: Kéo source code từ GitHub về máy ảo Ubuntu
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # Bước 2: Thiết lập môi trường Java JDK 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # Bước 3: Cài đặt Google Chrome cho headless testing
+      - name: Setup Chrome for Headless Testing
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      # Bước 4: Chạy kiểm thử Unit Test & Smoke Test (Hỗ trợ group smoke theo yêu cầu Y5)
+      - name: Execute Automated Tests (Group Smoke & Unit Tests)
+        run: |
+          mvn clean test -Dgroups=smoke -Dheadless=true
+
+      # Bước 5: Tải toàn bộ báo cáo kết quả kiểm thử (Reports) lên GitHub Artifacts
+      - name: Upload Test Reports to Artifacts
+        if: always() # Luôn luôn chạy kể cả khi có bài test bị fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: Automated-Test-Reports
+          path: |
+            target/surefire-reports/
+          retention-days: 14

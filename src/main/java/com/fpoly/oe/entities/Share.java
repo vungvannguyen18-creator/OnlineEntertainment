@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.entities;
+package com.fpoly.oe.entities;
 
 import java.util.Date;
 

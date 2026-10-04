@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.entities;
+package com.fpoly.oe.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

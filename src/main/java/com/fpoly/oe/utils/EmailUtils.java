@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.utils;
+package com.fpoly.oe.utils;
 
 import java.util.Properties;
 import jakarta.mail.Authenticator;

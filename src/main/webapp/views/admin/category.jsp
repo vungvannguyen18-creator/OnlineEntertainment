@@ -1,8 +1,15 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <jsp:include page="/views/layout/admin_header.jsp" />
 
+
+<c:if test="${not empty message}">
+    <div class="alert alert-success fw-bold">${message}</div>
+</c:if>
+<c:if test="${not empty error}">
+    <div class="alert alert-danger fw-bold">${error}</div>
+</c:if>
 
 <ul class="nav nav-tabs mb-4" id="categoryTabs" role="tablist">
   <li class="nav-item" role="presentation">
@@ -21,15 +28,7 @@
 
 <div class="tab-content" id="categoryTabsContent">
   
-  
   <div class="tab-pane fade ${activeTab == 'edition' || empty activeTab ? 'show active' : ''}" id="edition" role="tabpanel">
-      
-      <c:if test="${not empty message}">
-          <div class="alert alert-success fw-bold">${message}</div>
-      </c:if>
-      <c:if test="${not empty error}">
-          <div class="alert alert-danger fw-bold">${error}</div>
-      </c:if>
       
       <div class="card border border-warning shadow-sm mb-4">
           <div class="card-body" style="background-color: #fffaf0; padding: 30px;">

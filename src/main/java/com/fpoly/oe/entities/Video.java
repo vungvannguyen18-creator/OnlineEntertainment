@@ -92,10 +92,15 @@ public boolean isActive() {
 public void setActive(boolean active) {
 	this.active = active;
 }
-public void setViews(int views) {
-	this.views = views;
-}
+    public void setViews(int views) {
+        this.views = views;
+    }
 
+    public java.util.Date getUploadDate() {
+        return uploadDate;
+    }
 
-	
+    public void setUploadDate(java.util.Date uploadDate) {
+        this.uploadDate = uploadDate;
+    }
 }

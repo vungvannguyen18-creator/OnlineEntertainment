@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.filters;
+package com.fpoly.oe.filters;
 
 import java.io.IOException;
 import jakarta.servlet.Filter;

@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.dao;
+package com.fpoly.oe.dao;
 
 import java.util.List;
 import com.fpoly.oe.entities.Video;

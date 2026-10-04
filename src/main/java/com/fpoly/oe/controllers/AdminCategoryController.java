@@ -1,4 +1,4 @@
-﻿package com.fpoly.oe.controllers;
+package com.fpoly.oe.controllers;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,10 +16,23 @@ import com.fpoly.oe.entities.Category;
 public class AdminCategoryController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private CategoryDAO dao;
+
+    public void setCategoryDAO(CategoryDAO dao) {
+        this.dao = dao;
+    }
+
+    private CategoryDAO getDAO() {
+        if (this.dao == null) {
+            this.dao = new CategoryDAO();
+        }
+        return this.dao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
-        CategoryDAO dao = new CategoryDAO();
+        CategoryDAO dao = getDAO();
         Category formCategory = new Category();
         
         String activeTab = "list"; 
@@ -51,7 +64,7 @@ public class AdminCategoryController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
         String uri = req.getRequestURI();
-        CategoryDAO dao = new CategoryDAO();
+        CategoryDAO dao = getDAO();
         
         try {
             Category category = new Category();
@@ -122,7 +135,7 @@ public class AdminCategoryController extends HttpServlet {
             req.setAttribute("activeTab", activeTab);
             
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             String errorMsg = "Lỗi thao tác dữ liệu: " + e.getMessage();
             if (uri.contains("/delete")) {
                 errorMsg = "Không thể xóa danh mục này vì đang có video liên kết!";
