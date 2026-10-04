@@ -45,6 +45,10 @@ jobs:
           echo '```text' >> $GITHUB_STEP_SUMMARY
           cat maven_build.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          ERRORS=$(grep "\[ERROR\]" maven_build.log | head -n 20 | tr '\r\n' ' | ')
+          echo "::warning title=MavenErrors::$ERRORS"
+          TAIL=$(tail -n 20 maven_build.log | tr '\r\n' ' | ')
+          echo "::notice title=MavenTail::$TAIL"
         shell: bash
 
       # Bước 5: Tải toàn bộ báo cáo kết quả kiểm thử (Reports) lên GitHub Artifacts
