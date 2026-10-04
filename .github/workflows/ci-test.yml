@@ -35,7 +35,7 @@ jobs:
       # Bước 4: Chạy kiểm thử Unit Test & Smoke Test (Hỗ trợ group smoke theo yêu cầu Y5)
       - name: Execute Automated Tests (Group Smoke & Unit Tests)
         run: |
-          mvn clean test -Dgroups=smoke -Dheadless=true
+          mvn clean test -Dgroups=smoke -Dheadless=true --batch-mode --errors
 
       # Bước 5: Tải toàn bộ báo cáo kết quả kiểm thử (Reports) lên GitHub Artifacts
       - name: Upload Test Reports to Artifacts
@@ -43,6 +43,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Automated-Test-Reports
-          path: |
-            target/surefire-reports/
+          path: target/surefire-reports/
+          if-no-files-found: warn
           retention-days: 14
